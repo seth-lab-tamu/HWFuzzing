@@ -23,7 +23,7 @@ pt["csr_regs"] = [] # havent configured trace log for now
 pt["spike_max_inst"] = 350 # max instructions for spike to dump csr info
 
 # other variables
-core_name       = "cva6_1130"
+core_name       = "cva6"
 ready           = True # tells the fuzzer if this core is ready to be fuzzed
 core_full_name  = "CVA6"
 isa = "riscv_1130"

@@ -36,12 +36,11 @@ Benchmarks currently supported: **Rocket Core**, **CVA6**, **BOOMV3**, and **BOO
 ### 5. Install BoomV4:
 ./setup_scripts/install_boom_v4.sh
 
-
 ### 5. Install Rocket Core:
 ./setup_scripts/install_rc.sh
 
 ### 5. Install CVA6:
-- Install CVA6 (in progress)
+./setup_scripts/install_cva6.sh
 
 
 ### Running TheHuzz on BoomV4:
@@ -54,10 +53,10 @@ Benchmarks currently supported: **Rocket Core**, **CVA6**, **BOOMV3**, and **BOO
     - `python3 fuzz.py -co <benchmark> -id <run name> -mp <max testcases> -sj <simulation batch size> -j <num threads to use>`
 
 
-### HyPFuzz (In Progress)
+### HyPFuzz (On Progress)
 
 
-### ReFuzz (In Progress)
+### ReFuzz (On Progress)
 
 
 
