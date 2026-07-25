@@ -54,7 +54,8 @@ warnings.filterwarnings("ignore", category=SyntaxWarning)
 argVars = {}
 argVars['core_name']        = {'s' : 'co' , 'v' : 'rc', 'c' : ['rc', 'cva6', 'boomv3', 'boomv4'], 'h' : "select core(benchmark) to fuzz"}
 argVars['run_id']           = {'s' : 'id' , 'v' : f"{datetime.now().strftime('%y_%m_%d_%H_%M_%S')}",  'c' : None, 'h' : "select run name to store results (uses current time by default)"}
-argVars['run_mode']         = {'s' : 'rm' , 'v' : 'thehuzz','c' : ['thehuzz', 'random'], 'h' : "select whether running TheHuzz profiling or TheHuzz fuzzer or pso fuzzer"}
+argVars['run_mode']         = {'s' : 'rm' , 'v' : 'thehuzz','c' : ['thehuzz', 'random', 'noptest', 'refuzztest'], 'h' : "select whether running TheHuzz profiling or TheHuzz fuzzer or pso fuzzer"}
+argVars['output_root_dir']  = {'s' : 'ord', 'v' : '',       'c' : None,     'h' : "absolute parent directory for outputs and outputs_all (default: THEHUZZ_ROOT)"}
 argVars['run_task']         = {'s' : 'rt' , 'v' : 'fuzz',   'c' : ['fuzz', 'check_mismatches', 'update_excel', 'plot_graph'], 'h' : "runs normally if fuzz is selected. rest of the options are subtasks that run corresponding task and quit"}
 argVars['max_fuzz_time']    = {'s' : 'mt' , 'v' : 259_200,  'c' : None,     'h' : "select max time to run (in seconds)"}
 argVars['max_fuzz_progs']   = {'s' : 'mp' , 'v' : 50_000,   'c' : None,     'h' : "select max no. of testcases to run"}
@@ -67,6 +68,9 @@ argVars['num_times_to_mut'] = {'s' : 'mm' , 'v' : 10,       'c' : None,     'h' 
 argVars['store_elf_file']   = {'s' : 'sfe', 'v' : 1,        'c' : [0,1],    'h' : "set to 1 to store the generated elf files"}
 argVars['store_trace_file'] = {'s' : 'sft', 'v' : 1,        'c' : [0,1],    'h' : "set to 1 to store the generated trace files"}
 argVars['store_cov_file']   = {'s' : 'sfc', 'v' : 0,        'c' : [0,1],    'h' : "set to 1 to store the coverage files (not needed to run TheHuzz, setting this reduces fuzzer speed)"}
+argVars['collect_interesting_tests'] = {'s' : 'cit', 'v' : 0, 'c' : [0,1],  'h' : "set to 1 to store tests that increase the feedback coverage metrics"}
+argVars['collect_cov_samples'] = {'s' : 'ccs', 'v' : 0,      'c' : [0,1],    'h' : "set to 1 to store merged coverage samples at target coverage intervals"}
+argVars['cov_sample_interval'] = {'s' : 'csi', 'v' : 2.5,    'c' : None,     'h' : "coverage percentage interval for storing coverage samples"}
 
 argVars['start_type_cov']   = {'s' : 'stc', 'v' : 'new',                     'c' : ['new', 'continue'], 'h' : "select continue if fuzzer should continue using existing coverage, make sure to set the file path with -icf arg"}
 argVars['input_cov_file']   = {'s' : 'icf', 'v' : '',                        'c' : None,                'h' : "set the full path for the json coverage dictionary file that fuzzer should continue using"}
@@ -112,7 +116,18 @@ argVars['excel_file_path']          = {'s' : 'efp', 'v' : '',    'c' : None,'h' 
 argVars['ign_mm_after_first']= {'s': 'bif', 'v' : 1,        'c' : [0,1],    'h' : "set to ignore any mismatches after the first mismatch in trace output of each program input"}
 argVars['ign_itr_mm']        = {'s': 'bim', 'v' : ["1"],       'c' : None,     'h' : "provide a array of mismatch ids to ignore. Ex: -bim 1 5 9"}
 
-         
+# multi arm bandit related
+argVars['mab_algo']         = {'s' : 'maba' , 'v' : 'Greedy','c' : ['Greedy', 'UCB', 'EpsilonGreedy', 'EXP3'], 'h' : "select which MAB algo to use (only relevant for mabfuzz run_mode)"}
+argVars['mab_num_seed_arms'] = {'s' : 'mabns' , 'v' : 10,'c' : None, 'h' : "select how many arms seed mab should have (only relevant for mabfuzz run_mode)"}
+argVars['mab_n_picks_reset'] = {'s' : 'mabnpr' , 'v' : 3,'c' : None, 'h' : "select reset after how many iterations with 0 cov incr (only relevant for mabfuzz run_mode)"}
+
+# contextual bandit testing related
+argVars['refuzz_train_source'] = {'s' : 'rts' , 'v' : 'thehuzzcascade', 'c' : ['thehuzz', 'thehuzzcascade'], 'h' : "select which ReFuzz trained DB source to use"}
+argVars['training_processors'] = {'s' : 'tp' , 'v' : ['cva6', 'rc', 'boomv3', 'boomv4'], 'c' : ['cva6', 'rc', 'boomv3', 'boomv4'], 'h' : "select ReFuzz training benchmarks used to derive the trained DB model name"}
+argVars['refuzz_train_method'] = {'s' : 'rtm' , 'v' : 'refuzz_train', 'c' : ['refuzz_train'], 'h' : "select ReFuzz training method"}
+argVars['refuzz_epoch_num'] = {'s' : 'ren' , 'v' : 10000, 'c' : None, 'h' : "select ReFuzz training epochs"}
+argVars['cb_vul'] = {'s' : 'cbv' , 'v' : 0, 'c' : [0, 1], 'h' : "sets vul_train on/off (only relevant for refuzztest run_mode)"}
+
 
 ################################
 # EDIT WITH CAUTION BELOW THIS #
@@ -214,10 +229,15 @@ def pt():
     pt["utils_dir"]    = os.path.join(pt["root_dir"] , "utils/"             )
     pt["thehuzz_dir"]  = os.path.join(pt["root_dir"] , "thehuzz/"           )
     pt["sw_dir"]       = os.path.join(pt["root_dir"] , "software/"          )
-    pt["outputs_dir"]  = os.path.join(pt["root_dir"] , "outputs/"           )
-    pt["outputs_all_dir"]  = os.path.join(pt["root_dir"] , "outputs_all/"   )
     pt["input_seeds_dir"] = os.path.join(pt["root_dir"], "input_seeds/"     ) 
     pt["setup_scripts_dir"] = os.path.join(pt["root_dir"], "setup_scripts/" ) 
+
+    output_root_dir_local = pt["root_dir"] if output_root_dir == "" else os.path.expanduser(output_root_dir)
+    assert os.path.isabs(output_root_dir_local), f"output_root_dir must be an absolute path: {output_root_dir}"
+    os.makedirs(output_root_dir_local, exist_ok=True)
+    pt["output_root_dir"] = output_root_dir_local
+    pt["outputs_dir"]  = os.path.join(output_root_dir_local , "outputs/"           )
+    pt["outputs_all_dir"]  = os.path.join(output_root_dir_local , "outputs_all/"   )
 
     # utils dir
     pt["opt_sol_file"] = os.path.join(pt["utils_dir"], f"cplex_cov_sol_{core_name}.json")
@@ -260,10 +280,16 @@ def pt():
     pt["merged_covs_dir"]    = os.path.join(pt["outputs_run_dir"], "merged_covs") # dir where profiler stores merged cov
     pt["merged_cov_file"]    = os.path.join(pt["outputs_run_dir"], "merged_cov.json") # file where merged cov is stored
     pt["cov_log_file"]       = os.path.join(pt["outputs_run_dir"], "cov_log.json") # file where merged cov is stored
+    pt["particle_cov_log_file"]= os.path.join(pt["outputs_run_dir"], "particle_cov_log.jsonl") # file where each particle merged cov is stored
+    pt["particle_status_log_file"]= os.path.join(pt["outputs_run_dir"], "particle_status_log.jsonl") # file where each particles status is stored
     pt["inputs_log_file"]    = os.path.join(pt["outputs_run_dir"], "inputs_log.txt") # file where logs about testcases is stored
     pt["fuzz_log_file"]      = os.path.join(pt["outputs_run_dir"], "fuzz_log.txt") # file where fuzz log is stored
     pt["cov_data_dict_file"] = os.path.join(pt["outputs_run_dir"], "cov_data_dict.json") # file where merged cov is stored
     pt["mismatches_summary_file"] = os.path.join(pt["outputs_run_dir"], "mismatches_summary.json") # file where a summary of all mismatches is recorded
+    pt["interesting_tests_dir"] = os.path.join(pt["outputs_run_dir"], "interesting_tests") # dir where feedback-coverage-increasing tests are stored
+    pt["interesting_cov_log_file"] = os.path.join(pt["interesting_tests_dir"], "interesting_cov_log.json") # cov log for interesting tests
+    pt["cov_samples_dir"] = os.path.join(pt["outputs_run_dir"], "cov_samples") # dir where target coverage samples are stored
+    pt["cov_samples_log_file"] = os.path.join(pt["cov_samples_dir"], "cov_samples_log.json") # log for target coverage samples
 
     # outputs/<run_name>/gen_progs dir
     pt['hex_file_t']    = Template("inst_file_$fno.hex")

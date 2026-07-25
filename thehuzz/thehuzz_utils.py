@@ -13,7 +13,8 @@ from multiprocessing import Process
 
 testcase_template = {'id': None\
                     , 'hex_file': None, 'bin_file': None\
-                    , 'riscv_file': None, 'times_mutated': 0}
+                    , 'riscv_file': None, 'times_mutated': 0\
+                    , 'particle_id': -1, 'seed_arm_id': -1}
 
 """
 Deletes the target file
@@ -185,66 +186,133 @@ class Mytime:
 """
 """
 class DATABASE: 
-    def __init__(self, core, testcase_dir, hex_file_t\
-               , bin_file_t, riscv_file_t, run_mode):
+    def __init__(self, core, testcase_dir, hex_file_t, arg4, arg5, arg6=None):
         self.core = core
-        self.run_mode = run_mode
         self.testcase_dir = testcase_dir
         self.new_testcases = []
         self.simulated_testcases = []
         self.testcases_to_sim = []
         self.hex_file_t = hex_file_t
-        self.bin_file_t = bin_file_t
-        self.riscv_file_t = riscv_file_t
+        self.num_ids_assigned = 0
+        self.particle_id = -1
+
+        if isinstance(arg5, str):
+            # ReFuzz/CBFuzz shape:
+            #   core, testcase_dir, hex_file_t, riscv_file_t, run_mode, mab_num_seed_arms
+            self.bin_file_t = None
+            self.riscv_file_t = arg4
+            self.run_mode = arg5
+            mab_num_seed_arms = 0 if arg6 is None else arg6
+        else:
+            # Existing TheHuzz shape:
+            #   core, testcase_dir, hex_file_t, bin_file_t, riscv_file_t, run_mode
+            self.bin_file_t = arg4
+            self.riscv_file_t = arg5
+            self.run_mode = arg6
+            mab_num_seed_arms = 0
+
+        if self.run_mode in ['refuzztest']:
+            self.seed_mab_new_testcases = [[] for i in range(mab_num_seed_arms)]
+
+    def create_id(self):
+        new_id = self.num_ids_assigned
+        self.num_ids_assigned += 1
+        return new_id
 
     # add hex files to database
-    def add_testcases(self, filelist, save_filetypes=[]):
-        for file_i in filelist:
+    def add_testcases(self, filelist, save_filetypes=[], cb_vul_test=False\
+                    , particle_ids=[], seed_arm_ids=[], init_train=False):
+
+        if len(particle_ids) == 0:
+            particle_ids = [-1] * len(filelist)
+        if len(seed_arm_ids) == 0:
+            seed_arm_ids = [-1] * len(filelist)
+        assert len(filelist) == len(particle_ids), f"incorrect particle ids provided, {particle_ids}, {filelist}"
+        assert len(filelist) == len(seed_arm_ids), f"incorrect seed arm ids provided, {seed_arm_ids}, {filelist}"
+
+        newly_added_testcases = []
+
+        for file_i, particle_id, seed_arm_id in zip(filelist, particle_ids, seed_arm_ids):
             # add the testcase to all testcases
             testcase = copy.deepcopy(testcase_template)
-            testcase['id'] = self.num_testcases()
+            testcase['id'] = self.create_id()
 
             testcase_filename_hex = self.hex_file_t.substitute(fno=testcase['id'])
             testcase['hex_file'] = os.path.join(self.testcase_dir, testcase_filename_hex)
-            testcase_filename_bin = self.bin_file_t.substitute(fno=testcase['id'])
-            testcase['bin_file'] = os.path.join(self.testcase_dir, testcase_filename_bin)
+            if self.bin_file_t is not None:
+                testcase_filename_bin = self.bin_file_t.substitute(fno=testcase['id'])
+                testcase['bin_file'] = os.path.join(self.testcase_dir, testcase_filename_bin)
             testcase_filename_riscv = self.riscv_file_t.substitute(fno=testcase['id'])
             testcase['riscv_file'] = os.path.join(self.testcase_dir, testcase_filename_riscv)
             testcase['times_mutated'] = 0
+            testcase['particle_id'] = particle_id
+            testcase['seed_arm_id'] = seed_arm_id
 
-            self.new_testcases.append(testcase)
+            if self.run_mode in ['refuzztest'] and cb_vul_test is False:
+                self.seed_mab_new_testcases[seed_arm_id].append(testcase)
+            else:
+                self.new_testcases.append(testcase)
+            newly_added_testcases.append(testcase)
 
             # put the testcase in the database dir
-            subprocess.call([ 'mv', file_i, testcase['hex_file'] ])
             for save_file_i in save_filetypes:
-                subprocess.call([ 'mv', change_extension(file_i, save_file_i), change_extension(testcase['hex_file'], save_file_i) ])
+                src_file = change_extension(file_i, save_file_i)
+                dst_file = change_extension(testcase['hex_file'], save_file_i)
+                if init_train == True:
+                    if os.path.exists(src_file):
+                        subprocess.call([ 'cp', src_file, dst_file ])
+                    elif save_file_i == 'hex':
+                        src_riscv_file = change_extension(file_i, 'riscv')
+                        assert os.path.exists(src_riscv_file), \
+                            f"missing trained seed source '{src_file}' and fallback '{src_riscv_file}'"
+                        riscv_to_hex(src_riscv_file, dst_file)
+                    else:
+                        assert False, f"missing trained seed source '{src_file}'"
+                else:
+                    subprocess.call([ 'mv', src_file, dst_file ])
+
+        return newly_added_testcases
     
-    def get_testcases_to_sim(self, no_testcases): 
-        assert self.num_new_testcases() >= no_testcases, f"dont have enough testcases, {self.num_new_testcases()}, {no_testcases}"
-        self.testcases_to_sim = self.new_testcases[:no_testcases]
-        self.new_testcases = self.new_testcases[no_testcases:]
-        self.simulated_testcases += self.testcases_to_sim
+    def get_testcases_to_sim(self, no_testcases, seed_arm_id='all', cb_vul_test=False): 
+        if self.run_mode in ['refuzztest'] and cb_vul_test == False:
+            seed_arm_num_new_testcases = self.num_new_testcases(seed_arm_id)
+            assert seed_arm_num_new_testcases > 0, f"dont have any testcases, {seed_arm_num_new_testcases}, {seed_arm_id}"
+            no_testcases = min(no_testcases, seed_arm_num_new_testcases)
+            self.testcases_to_sim = self.seed_mab_new_testcases[seed_arm_id][:no_testcases]
+            self.seed_mab_new_testcases[seed_arm_id] = self.seed_mab_new_testcases[seed_arm_id][no_testcases:]
+            self.simulated_testcases += self.testcases_to_sim
+        else:
+            assert self.num_new_testcases(cb_vul_test=cb_vul_test) >= no_testcases, f"dont have enough testcases, {self.num_new_testcases()}, {no_testcases}"
+            self.testcases_to_sim = self.new_testcases[:no_testcases]
+            self.new_testcases = self.new_testcases[no_testcases:]
+            self.simulated_testcases += self.testcases_to_sim
 
         return self.testcases_to_sim 
 
 
-    def allocate_testcases_to_mut(self, testcases_to_mut): 
+    def allocate_testcases_to_mut(self, testcases_to_mut, cb_vul_test=False): 
         for testcase in testcases_to_mut: 
             testcase['new_hex_files'] = []
             testcase['new_bin_files'] = []
             testcase['new_riscv_files'] = []
             for i in range(testcase['mut_times']): 
                 new_testcase = copy.deepcopy(testcase_template)
-                new_testcase['id'] = self.num_testcases()
+                new_testcase['id'] = self.create_id()
                 new_testcase_filename_hex = self.hex_file_t.substitute(fno=new_testcase['id'])
                 new_testcase['hex_file'] = os.path.join(self.testcase_dir, new_testcase_filename_hex)
-                new_testcase_filename_bin = self.bin_file_t.substitute(fno=new_testcase['id'])
-                new_testcase['bin_file'] = os.path.join(self.testcase_dir, new_testcase_filename_bin)
+                if self.bin_file_t is not None:
+                    new_testcase_filename_bin = self.bin_file_t.substitute(fno=new_testcase['id'])
+                    new_testcase['bin_file'] = os.path.join(self.testcase_dir, new_testcase_filename_bin)
                 new_testcase_filename_riscv = self.riscv_file_t.substitute(fno=new_testcase['id'])
                 new_testcase['riscv_file'] = os.path.join(self.testcase_dir, new_testcase_filename_riscv)
                 new_testcase['times_mutated'] = testcase['times_mutated'] + 1
+                new_testcase['particle_id'] = testcase['particle_id']
+                new_testcase['seed_arm_id'] = testcase['seed_arm_id']
 
-                self.new_testcases.append(new_testcase)
+                if self.run_mode in ['refuzztest'] and cb_vul_test == False:
+                    self.seed_mab_new_testcases[testcase['seed_arm_id']].append(new_testcase)
+                else:
+                    self.new_testcases.append(new_testcase)
                 testcase['new_hex_files'].append(new_testcase['hex_file'])
                 testcase['new_bin_files'].append(new_testcase['bin_file'])
                 testcase['new_riscv_files'].append(new_testcase['riscv_file'])
@@ -255,10 +323,16 @@ class DATABASE:
         t= 1
 
     def num_testcases(self): 
-        return len(self.new_testcases) + len(self.simulated_testcases)
+        return self.num_new_testcases() + len(self.simulated_testcases)
 
-    def num_new_testcases(self): 
-        return len(self.new_testcases)
+    def num_new_testcases(self, seed_arm_id='all', cb_vul_test=False): 
+        if self.run_mode in ['refuzztest'] and cb_vul_test == False:
+            if seed_arm_id == 'all':
+                return sum(len(i) for i in self.seed_mab_new_testcases)
+            else:
+                return len(self.seed_mab_new_testcases[seed_arm_id])
+        else:
+            return len(self.new_testcases)
 
     def num_testcases_simulated(self): 
         return len(self.simulated_testcases)
@@ -277,6 +351,32 @@ def hex_to_riscv(in_hex_file, out_riscv_file, bit_width=128):
             for hex_value in hex_values:
                 bin_data = int(hex_value, 16).to_bytes(bit_width // 32, byteorder='little')
                 bin_file.write(bin_data)
+
+
+def riscv_to_hex(in_riscv_file, out_hex_file, bit_width=128):
+    """
+    Converts a RISC-V ELF/binary file to TheHuzz hex format using freedom-bin2hex.py.
+    """
+    thehuzz_root = os.environ.get("THEHUZZ_ROOT")
+    assert thehuzz_root, "THEHUZZ_ROOT is required to convert .riscv trained seeds to .hex"
+    converter = os.path.join(thehuzz_root, "utils", "freedom-bin2hex.py")
+    assert os.path.exists(converter), f"missing converter script '{converter}'"
+    assert os.path.exists(in_riscv_file), f"missing input .riscv file '{in_riscv_file}'"
+
+    lg.warning(f"Missing trained seed hex file for {in_riscv_file}; generating {out_hex_file}")
+    cmd = [
+        "python3",
+        converter,
+        "--bit-width",
+        str(bit_width),
+        "-itype",
+        "bin",
+        "-otype",
+        "hex",
+        in_riscv_file,
+        out_hex_file,
+    ]
+    subprocess.run(cmd, check=True)
 
 
 def hex_to_bin(input_file, output_file, bit_width=128): # only for xiangshan

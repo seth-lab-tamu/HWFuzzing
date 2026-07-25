@@ -63,14 +63,23 @@ def setupArgparse(configFileDict):
         # if the type is list, we need to handle it carefully
         if type(data["v"]) == type([1,1]): # [1,1] here is just an example of list
             arg_data["nargs"] = '+'
-            arg_data["type"] = type(data["v"][0])
+            if data["v"]:
+                arg_data["type"] = type(data["v"][0])
+            elif data["c"]:
+                arg_data["type"] = type(data["c"][0])
+            else:
+                arg_data["type"] = str
         else: 
             arg_data["type"] = type(data["v"])
 
         if data['c']: 
             # make sure the default value we are using from config file is within
             # the valid choices
-            assert data["v"] in data["c"], f"invalid value: {data['v']} for {key} in config file. choices={data['c']}" 
+            if type(data["v"]) == type([1,1]):
+                assert all(value in data["c"] for value in data["v"]), \
+                    f"invalid value: {data['v']} for {key} in config file. choices={data['c']}"
+            else:
+                assert data["v"] in data["c"], f"invalid value: {data['v']} for {key} in config file. choices={data['c']}" 
             arg_data["choices"] = data["c"]
 
         if data['h']: 

@@ -13,7 +13,7 @@ source ./hwfuzzing/bin/activate \
 pip3 install gdown openpyxl tqdm pandas numpy matplotlib jsonlines
 
 ### 2. Source the setup script for Chipyard 1.13.0:
-update paths in thehuzz_setup.sh \
+update paths in thehuzz_setup.sh (Lines 7 and 20)\
 source thehuzz_setup.sh
 
 ### 3. Install Chipyard Toolchain and Dependencies
@@ -56,7 +56,41 @@ Benchmarks currently supported: **Rocket Core**, **CVA6**, **BOOMV3**, and **BOO
 ### HyPFuzz (On Progress)
 
 
-### ReFuzz (On Progress)
+### Running ReFuzz
+
+ReFuzz reuses previously collected interesting tests to guide processor
+fuzzing with contextual bandits. From the repository root, load the
+environment and run ReFuzz testing through `fuzz.py`:
+
+```bash
+source thehuzz_setup.sh
+
+python3 fuzz.py \
+  -id test \
+  -co boomv4 \
+  -rm refuzztest \
+  -maba EpsilonGreedy \
+  -rts thehuzzcascade \
+  -tp cva6 rc boomv3 \
+  -j 10 \
+  -mp 100 \
+  -cbv 0 \
+  -fct branch \
+  -fd 1
+```
+
+The `-rts`, `-tp`, and `-fct` options must match the trained ReFuzz database
+that the test should use. In this example, ReFuzz loads the
+`thehuzzcascade/branch/cva6_rc_boomv3_train` model and tests BOOMV4.
+
+The `interesting_tests20K` directory provides the interesting-test corpus and
+coverage data used to train ReFuzz. Its tests are collected from both TheHuzz
+and Cascade. ReFuzz minimizes this corpus, measures the selected tests across
+training processors, and uses their coverage increments to train its
+contextual-bandit models.
+
+For the complete training workflow, command options, expected directory
+layouts, and output files, see the [ReFuzz documentation](refuzz/ReadMe.md).
 
 
 

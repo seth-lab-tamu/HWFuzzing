@@ -468,7 +468,7 @@ def get_prog_insts_to_mut(prog_insts, nop_inst_hex_32, num_nops_at_start, num_no
 Determine the mutation technique to use for the instrn
 """
 def det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
-                   , optimizer_sol, val_muts, opc_muts): 
+                   , optimizer_sol, val_muts, opc_muts, P=''):
 
     if mut_prob_type == 'optimizer': 
         # get the inst type
@@ -503,7 +503,7 @@ def det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
 Mutate the input list of instrns
 """
 def mut_insts(insts_to_mut, mutation_prob, mut_prob_type, inst_list_all_w_ext\
-            , optimizer_sol, val_muts, opc_muts, nop_inst_bin_32): 
+            , optimizer_sol, val_muts, opc_muts, nop_inst_bin_32, P=''):
     mutated_insts = []
     insts_to_mut_bin = [inst_hex_to_bin(inst) for inst in insts_to_mut]
 
@@ -518,7 +518,7 @@ def mut_insts(insts_to_mut, mutation_prob, mut_prob_type, inst_list_all_w_ext\
 
         # determine mutation technique to use
         i, m_type = det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
-                   , optimizer_sol, val_muts, opc_muts)
+                   , optimizer_sol, val_muts, opc_muts, P='')
 
         # mutate the instrn
         if   (m_type == 0): inst_bin_rev_mutated = bitflip_1(inst_bin_rev,i)    
@@ -573,6 +573,125 @@ def update_lines_to_mut(prog_lines_to_mut, prog_insts_to_mut_indexes, prog_insts
 
 
 """
+Extracts instructions from baremetal type/openpiton(pk) prog file
+- hex file line format: @00000000 00000093 00000113 00000193 00000213
+    - the 32bit instrns are in the  right order, i.e., 1st instrn is 0000_0093
+"""
+def parse_insts_from_lines(prog_lines, hex_file_type, core):
+    if hex_file_type == 'hex':
+        if core == 'rsd':
+            inst_list = []
+            for line in prog_lines:
+                inst_list.append(line[-9:-1])
+                inst_list.append(line[-17:-9])
+                inst_list.append(line[-25:-17])
+                inst_list.append(line[-33:-25])
+            return inst_list
+        else:
+            return [line[10+(i*9) : 10+(i*9)+8] for line in prog_lines for i in range(4)]
+    else: assert 0, f"Unknown hex_file_type found: {hex_file_type}"
+    return
+
+
+"""
+Find the instrns to mutate. 
+    - for thehuzz hex file, these instrns will be padded before and after with nop instrns
+    - for cascade hex file, its all instructions other than first 16*4 and also one instruction before all 0000000 instrns
+    - The second 4 instructions are different between cascade and thehuzz
+    - ASSUMES that the first 4 instructions will be fixed for each type\
+    - ASSUMES that cascade input will always have more than 16*4+2+14*4 instrs
+"""
+def get_insts_to_mut(inst_list, nop_inst_hex_32, num_nops_at_start, num_nops_at_end, core):
+    insts_to_mut_indexes = []
+    insts_to_mut = []
+    
+    # identify if the format is thehuzz or cascade
+#    if inst_list[0:4] == ['00000093', '00000113', '00000193', '00000213'] or \
+#       inst_list[0:4] == ['464c457f', '00010102', '00000000', '00000000']: # thehuzz hex file
+    if inst_list[6] == '80000000':
+        num_nop_insts = 0
+        state = 'PRE_MUT'
+        for i, inst in enumerate(inst_list): 
+            if state == 'PRE_MUT': 
+                num_nop_insts = num_nop_insts+1 if (inst == nop_inst_hex_32) else 0
+                if (num_nop_insts == num_nops_at_start): 
+                    state = 'MUT'
+                    num_nop_insts = 0
+            elif state == 'MUT': 
+                insts_to_mut_indexes.append(i)
+                insts_to_mut.append(inst)
+                num_nop_insts = num_nop_insts+1 if (inst == nop_inst_hex_32) else 0
+                if (num_nop_insts == num_nops_at_end): 
+                    insts_to_mut_indexes = insts_to_mut_indexes[:num_nops_at_end*-1] # remove the padding nops
+                    insts_to_mut= insts_to_mut[:num_nops_at_end*-1] # remove the padding nops
+                    state = 'POST_MUT'
+                    num_nop_insts = 0
+    elif inst_list[6] == '00000000':
+        # first 16 lines and two more instr are prefix and should not be mutated. 16 lines = 16*4 + 2 insts
+        # also do not mutate the last 14 lines of instructions
+        state = 'ZEROS'
+        num_zero_insts = 0
+        insts_in_block = []
+        insts_in_block_indexes = []
+        for i, inst in enumerate(inst_list[(16*4+2):-14*4]): 
+            if state == 'ZEROS': # look for next block of code
+                if inst != '00000000': 
+                    insts_in_block_indexes.append(i + (16*4+2))
+                    insts_in_block.append(inst)
+                    state = 'MUT'
+            elif state == 'MUT': 
+                insts_in_block_indexes.append(i + (16*4+2))
+                insts_in_block.append(inst)
+
+                # if you see 4 zero insts, stop and dont mutate those 4 + 2 extra insts 
+                # which can have the last jump inst
+                # - it can happen that there is only 4 zeros + 1 jump inst. we can still do [:-6] bcz python returns empty array anyways
+                num_zero_insts = num_zero_insts+1 if (inst == '00000000') else 0
+                if (num_zero_insts == 4): 
+                    insts_to_mut_indexes += insts_in_block_indexes[:6*-1] # remove the padding nops
+                    insts_to_mut += insts_in_block[:6*-1] # remove the padding nops
+                    state = 'ZEROS'
+                    num_zero_insts = 0
+                    insts_in_block = []
+                    insts_in_block_indexes = []
+
+        # if the last 4 instructions are not zeros, 
+        # make sure not to mutate the last 6 instructions to ensure branch instruction is not mutated
+        if not inst_list[:-4] == ['00000000', '00000000', '00000000','00000000']: 
+            insts_to_mut_indexes = insts_to_mut_indexes[:6*-1] # remove the padding nops
+            insts_to_mut= insts_to_mut[:6*-1] # remove the padding nops
+
+    else: assert 0, f"unknown hex file type found: {inst_list[0:8]}"
+    
+    return insts_to_mut, insts_to_mut_indexes 
+
+
+"""
+Recreate the prog lines with the new instructions
+    - Line format: 
+    - bm: @00000254 00000013 00000013 00000013 00000013
+    - ASSUMES no of instructions in the file doesnt change
+"""
+def update_prog_lines(prog_lines, inst_list, hex_file_type, core): 
+   
+    if hex_file_type == 'hex': num_insts_in_line = 4
+    else: assert 0, f"Unknown hex_file_type found: {hex_file_type}"
+
+    # update lines
+    new_prog_lines = []
+    for line_i, line in enumerate(prog_lines): 
+        line_first_inst_index = line_i*num_insts_in_line
+        line_end_inst_index   = (line_i*num_insts_in_line) + num_insts_in_line - 1
+        
+        # update the line with mutated insts
+        if hex_file_type == 'hex': 
+            new_prog_lines.append(line[0:10] + ' '.join(inst_list[line_first_inst_index:line_end_inst_index+1]) + '\n')
+        else: assert 0, f"Unknown hex_file_type found: {hex_file_type}"
+            
+    return new_prog_lines
+
+
+"""
 Mutate testcase for fuzzing
 - First the data to mutate is extracted
 - That data is mutated and replaced in the original file to create the mutated file
@@ -581,59 +700,77 @@ Mutate testcase for fuzzing
 def mutate_prog(hex_file_in, hex_file_out, mutation_prob\
               , optimizer_sol, nop_inst_bin_32, inst_list_all_w_ext\
               , val_muts, opc_muts, num_nops_at_start, num_nops_at_end\
-              , core, hex_file_type='bm', mut_prob_type='optimizer'):
+              , core, hex_file_type='bm', mut_prob_type='optimizer', P=''):
 
     lg.debug("generating", os.path.basename(hex_file_out), "from"\
             ,os.path.basename(hex_file_in))
 
     nop_inst_hex_32 = inst_bin_to_hex(nop_inst_bin_32)
+    hex_file_type = os.path.splitext(hex_file_in)[1][1:] # there could still be types in each type
 
     # read the input file
     with open(hex_file_in, 'r') as fp: prog_lines = fp.readlines()
-    #print(prog_lines)
 
-    # identify the part of file with instrns to mutate
-    prog_line_indexes_to_mut = get_prog_lines_to_mut(prog_lines, hex_file_type, nop_inst_hex_32, core)
-    prog_lines_to_mut = prog_lines[prog_line_indexes_to_mut[0]:prog_line_indexes_to_mut[-1]+1]
+    # get the list of instrns
+    inst_list = parse_insts_from_lines(prog_lines, hex_file_type, core)
 
-    # parse instructions from the prog file
-    prog_insts = parse_inst_from_prog(prog_lines_to_mut, hex_file_type, core)
-    #print(prog_insts)
+    # identify instrns to mutate
+    insts_to_mut, insts_to_mut_indexes = get_insts_to_mut(inst_list, nop_inst_hex_32, num_nops_at_start, num_nops_at_end, core)
 
-    #print("before mutation")
-
-    prog_insts_to_mut, prog_insts_to_mut_indexes = \
-            get_prog_insts_to_mut(prog_insts, nop_inst_hex_32, num_nops_at_start, num_nops_at_end)
-    #print(prog_insts_to_mut, prog_insts_to_mut_indexes)
-
-    prog_insts_to_mut_mutated = mut_insts(prog_insts_to_mut, mutation_prob, mut_prob_type, inst_list_all_w_ext\
-            , optimizer_sol, val_muts, opc_muts, nop_inst_bin_32)
-    #print(prog_insts_to_mut_mutated)
+    insts_to_mut_mutated = mut_insts(insts_to_mut, mutation_prob, mut_prob_type, inst_list_all_w_ext\
+            , optimizer_sol, val_muts, opc_muts, nop_inst_bin_32, P)
+    #print(insts_to_mut_mutated)
 
     # update prog insts with mutated insts
-    for inst_index, prog_inst_mutated in zip(prog_insts_to_mut_indexes, prog_insts_to_mut_mutated): 
-        prog_insts[inst_index] = prog_inst_mutated
-    #print(prog_insts)
+    for inst_index, inst_mutated in zip(insts_to_mut_indexes, insts_to_mut_mutated): 
+        inst_list[inst_index] = inst_mutated
+    #print(inst_list)
    
-    # update the lines to mut with the mutated insts
-    prog_lines_to_mut = update_lines_to_mut(prog_lines_to_mut\
-                        , prog_insts_to_mut_indexes, prog_insts\
-                        , hex_file_type, core)
-    for prog_line_index_to_mut, prog_line_to_mut in zip(prog_line_indexes_to_mut, prog_lines_to_mut): 
-        prog_lines[prog_line_index_to_mut] = prog_line_to_mut
-        #print(prog_lines[prog_line_index_to_mut])
-    #print(prog_lines_to_mut)
+    # update the prog lines with the mutated instrns
+    prog_lines = update_prog_lines(prog_lines, inst_list, hex_file_type, core)
+    #print(prog_lines)
 
-    #print("after mutation")
-    
     # create the mutated prog file
     with open(hex_file_out, 'w') as fp: 
         for line in prog_lines: 
             fp.write(line)
-    #thehuzz_utils.convert_rsdhex_to_spikeriscv(hex_file_out, hex_file_out.split('.')[0]+".riscv",'/mnt/shared-scratch/Rajendran_J/jkohhokj/TheHuzz_USENIX_22/thehuzz/spike_template.hex')
 
 
+    # # identify the part of file with instrns to mutate
+    # prog_line_indexes_to_mut = get_prog_lines_to_mut(prog_lines, hex_file_type, nop_inst_hex_32, core)
+    # prog_lines_to_mut = prog_lines[prog_line_indexes_to_mut[0]:prog_line_indexes_to_mut[-1]+1]
 
+    # # parse instructions from the prog file
+    # prog_insts = parse_inst_from_prog(prog_lines_to_mut, hex_file_type, core)
+    # #print(prog_insts)
+
+    #print("before mutation")
+
+    # prog_insts_to_mut, prog_insts_to_mut_indexes = \
+    #         get_prog_insts_to_mut(prog_insts, nop_inst_hex_32, num_nops_at_start, num_nops_at_end)
+    # #print(prog_insts_to_mut, prog_insts_to_mut_indexes)
+
+    # prog_insts_to_mut_mutated = mut_insts(prog_insts_to_mut, mutation_prob, mut_prob_type, inst_list_all_w_ext\
+    #         , optimizer_sol, val_muts, opc_muts, nop_inst_bin_32)
+    #print(prog_insts_to_mut_mutated)
+
+    # # update prog insts with mutated insts
+    # for inst_index, prog_inst_mutated in zip(prog_insts_to_mut_indexes, prog_insts_to_mut_mutated): 
+    #     prog_insts[inst_index] = prog_inst_mutated
+    # #print(prog_insts)
+   
+    # # update the lines to mut with the mutated insts
+    # prog_lines_to_mut = update_lines_to_mut(prog_lines_to_mut\
+    #                     , prog_insts_to_mut_indexes, prog_insts\
+    #                     , hex_file_type, core)
+    # for prog_line_index_to_mut, prog_line_to_mut in zip(prog_line_indexes_to_mut, prog_lines_to_mut): 
+    #     prog_lines[prog_line_index_to_mut] = prog_line_to_mut
+    #     #print(prog_lines[prog_line_index_to_mut])
+    
+    # # create the mutated prog file
+    # with open(hex_file_out, 'w') as fp: 
+    #     for line in prog_lines: 
+    #         fp.write(line)
 
 
 def mutate_prog_old(hex_file_in, hex_file_out, mutation_prob\

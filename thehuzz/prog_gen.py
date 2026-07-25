@@ -35,7 +35,7 @@ def gen_multi_prog( del_repo, mode, core\
    
         if (mode == 'random'):
             gen_random_prog(file_p, *prog_gen_xargs)
-        elif (mode in ['thehuzz']):
+        elif (mode in ['thehuzz', 'refuzztest']):
             gen_fuzzer_prog(file_p, *prog_gen_xargs, mode)
         else:
             print("Unknown mode received", mode)

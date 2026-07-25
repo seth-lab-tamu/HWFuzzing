@@ -54,7 +54,8 @@ def sim_progs(progs_to_sim, no_threads, prog_save_no, *args_for_simulation):
     # create the arguments for the simulation processes
     args = []
     for i, mem_file_in in enumerate(progs_to_sim): 
-        args.append( [mem_file_in, prog_save_no[i], str(random.randrange(sys.maxsize)), *args_for_simulation] )
+        # hard-coded random number for vcs simulation
+        args.append( [mem_file_in, prog_save_no[i], str(666), *args_for_simulation] )
     
     # invoke all the simulations using multiprocess
     init_args = (locks, write_log_lock)

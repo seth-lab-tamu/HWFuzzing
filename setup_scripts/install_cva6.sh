@@ -154,7 +154,7 @@ fi
 ###############################################
 
 SRC_DRAMSIM_DIR="$CHIPYARD_DIR/generators/testchipip/src/main/resources/dramsim2_ini"
-DEST_DIR="$THEHUZZ_ROOT/benchmarks/cva6_1130"
+DEST_DIR="$THEHUZZ_ROOT/benchmarks/cva6"
 
 if [[ ! -d "$SRC_DRAMSIM_DIR" ]]; then
     error "dramsim2_ini directory not found at $SRC_DRAMSIM_DIR"

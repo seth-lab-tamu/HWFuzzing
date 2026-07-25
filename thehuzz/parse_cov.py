@@ -112,7 +112,7 @@ def convert_cov_dicts_to_numpy(cov_data_dict):
 
         # convert cov data to one string and then numpy array
         cov_dict = ''.join(cov_dict.values())
-        temp_list = np.fromstring(cov_dict, 'u1') - ord('0')
+        temp_list = np.frombuffer(cov_dict.encode(), dtype='u1') - ord('0')
         cov_dicts_list[i] = temp_list.astype('int')
 
     return cov_dicts_list
@@ -139,15 +139,20 @@ def merge_cov_dicts_incremental(cov_dicts_input, input_type, initial_cov=None \
                                 , time=None, debug_print=False):
 
     cov_data_dict = get_cov_dicts(cov_dicts_input, input_type) # get cov dicts
+    assert cov_data_dict, "cannot merge an empty coverage dictionary"
     example_cov_dict = cov_data_dict[next(iter(cov_data_dict))] # first get a example cov dict, to use as cov template
     # if initial coverage is not provided, start with all points as uncovered
     if initial_cov == None: 
         merged_cov_dict = {key: '0'*len(data) for (key, data) in example_cov_dict.items()}
     else: 
-        merged_cov_dict = initial_cov
+        # Do not mutate the caller's initial coverage object. ReFuzz initializes
+        # every MAB arm from the same global coverage dict, so in-place updates
+        # would make all arms share one changing coverage state.
+        merged_cov_dict = dict(initial_cov)
 
     cov_increment_dict = { prog_name: { 'id': prog_name\
                            , 'time': time\
+                           , 'num_progs': 1\
                            , 'incr': {key: 0 for key in merged_cov_dict.keys()}\
                            , 'tot': {key: 0 for key in merged_cov_dict.keys()}} for prog_name in cov_data_dict.keys() }
     
@@ -155,13 +160,22 @@ def merge_cov_dicts_incremental(cov_dicts_input, input_type, initial_cov=None \
     tot_cov = full_cov_to_cov_num(merged_cov_dict)
 
     for cov_type, cov_str in merged_cov_dict.items(): # cov_str is a string of 0's and 1's 
+        cov_dicts_with_type = {prog_no: cov_dict for prog_no, cov_dict in cov_data_dict.items() if cov_type in cov_dict}
+        if not cov_dicts_with_type:
+            continue
+        assert len(cov_dicts_with_type) == len(cov_data_dict), \
+            f"coverage type {cov_type} is missing from some simulation results"
+        for prog_no, cov_dict in cov_dicts_with_type.items():
+            assert len(cov_dict[cov_type]) == len(cov_str), \
+                f"coverage length mismatch for {cov_type} in {prog_no}: got {len(cov_dict[cov_type])}, expected {len(cov_str)}"
+
         new_merged_cov_arr = [*cov_str]
         itr = tqdm(cov_str, desc=f"------Merging {cov_type}") if debug_print else cov_str
         for i, cov_point in enumerate(itr): 
             # if cov point is already 1, no need to update merged cov and no incr in cov
             if not int(cov_point):
                 prog_increasing_cov = -1
-                for prog_no, cov_dict in cov_data_dict.items(): 
+                for prog_no, cov_dict in cov_dicts_with_type.items(): 
                     if cov_dict[cov_type][i] == '1':
                         prog_increasing_cov = prog_no
                         break
@@ -192,8 +206,10 @@ Merges the cov dicts either incrementally or directly based on the mode
     - file: coverage data is input in the form of path to json files where cov
             dict is dumped
 """
-def merge_cov_dicts(cov_dicts_input, input_type, merge_mode='incremental', initial_cov=None \
-                                , time=None, debug_print=False):
+def merge_cov_dicts(cov_dicts_input, input_type, merge_mode='incremental', \
+                    initial_cov=None, time=None, arm_initial_cov_dict=None, \
+                    particle_seed_ids=[], particle_initial_cov=None, \
+                    debug_print=False):
 
     if merge_mode == 'incremental': 
         return merge_cov_dicts_incremental(cov_dicts_input, input_type, initial_cov, time)
@@ -210,11 +226,34 @@ def merge_cov_dicts(cov_dicts_input, input_type, merge_mode='incremental', initi
         merged_cov_dict, t = merge_cov_dicts_direct([cov_dicts_to_merge, None, input_type])
       
         # in the cov incr dict, only add the cov of last prog
+        merged_cov_num = full_cov_to_cov_num(merged_cov_dict, True)
+        if initial_cov != None:
+            initial_cov_num = full_cov_to_cov_num(initial_cov, True)
+            incr_cov_num = {key: value - initial_cov_num.get(key, 0) for key, value in merged_cov_num.items()}
+        else:
+            incr_cov_num = merged_cov_num
         cov_increment_dict = { last_prog: { 'id': last_prog\
                            , 'time': time\
-                           , 'tot': full_cov_to_cov_num(merged_cov_dict, True)} }
+                           , 'num_progs': len(list(cov_dicts_input.keys()))\
+                           , 'incr': incr_cov_num\
+                           , 'tot': merged_cov_num} }
 
         return merged_cov_dict, cov_increment_dict
+
+    elif merge_mode == 'mab': # get total merged cov and also arm's merged cov
+
+        last_prog = list(cov_dicts_input.keys())[-1] # get last prog
+
+        # merged cov of arm
+        arm_merged_cov_dict, arm_cov_increment_dict \
+            = merge_cov_dicts_incremental(cov_dicts_input, input_type, arm_initial_cov_dict, time)
+        
+        # total merged cov
+        merged_cov_dict, cov_increment_dict = merge_cov_dicts({last_prog:arm_merged_cov_dict}\
+                                            , 'dict', 'direct', initial_cov, time)
+        cov_increment_dict[last_prog]['num_progs'] = len(list(cov_dicts_input.keys()))
+
+        return merged_cov_dict, cov_increment_dict, None, None, arm_merged_cov_dict, arm_cov_increment_dict
 
     else: 
         assert 0, f"unknown merge mode, {CONFIG.merge_mode}."
@@ -296,4 +335,3 @@ if __name__ == '__main__':
 ####################
 # depreciated code #
 ####################
-
