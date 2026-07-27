@@ -21,7 +21,7 @@ import mabfuzz.MABAlgos as MAB_algos
 
 coverage_file_initialized = False
 
-def init_cb_cov_list(fuzz_time, cb_init_flags, current_context, \
+def init_cb_cov_list(fuzz_time, run_mode, cb_init_flags, current_context, \
                      cb_remaining_seeds, cb_train_files, mab_algo, \
                      mab_n_picks_reset, merged_cov_dict, input_database, \
                      inputs_log_file, prog_mut_xargs, cb_vul_test, \
@@ -70,7 +70,7 @@ def init_cb_cov_list(fuzz_time, cb_init_flags, current_context, \
         testcase.update({'mut_times': sim_batch_size - 1})
 
     testcases_to_mut = input_database.allocate_testcases_to_mut(newly_added_testcases, cb_vul_test)
-    num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test)
+    num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, run_mode, cb_vul_test)
     num_mutations_after_seed_gen += num_testcases_generated
     TU.TIMELOG(fuzz_time, f" -- Mutate initial CB seeds from {current_context} context training", True, True)
 
@@ -314,7 +314,7 @@ def run_refuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT,
         )
 
         testcases_to_mut = input_database.allocate_testcases_to_mut(testcases_to_mut, cb_vul_test)
-        num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test)
+        num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, run_mode, cb_vul_test)
         num_mutations_after_seed_gen += num_testcases_generated
 
         TU.TIMELOG(
@@ -392,6 +392,7 @@ def run_refuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT,
 
                     cb_test_seed, num_mutations_after_seed_gen, cb_test_num_seed_arms = init_cb_cov_list(
                         fuzz_time,
+                        run_mode,
                         cb_init_flags,
                         current_context,
                         cb_remaining_seeds,
@@ -459,7 +460,7 @@ def run_refuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT,
                     testcase.update({'mut_times': sim_batch_size - 1})
 
                 testcases_to_mut = input_database.allocate_testcases_to_mut(newly_added_testcases, cb_vul_test)
-                num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test)
+                num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, run_mode, cb_vul_test)
                 num_mutations_after_seed_gen += num_testcases_generated
                 TU.TIMELOG(fuzz_time, f" -- Mutate initial CB seeds from {current_context} context training", True, True)
 
@@ -499,7 +500,7 @@ def run_refuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT,
                 testcase.update({'mut_times': sim_batch_size - 1})
 
             testcases_to_mut = input_database.allocate_testcases_to_mut(newly_added_testcases, cb_vul_test)
-            num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test)
+            num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, run_mode, cb_vul_test)
             num_mutations_after_seed_gen += num_testcases_generated
 
         TU.TIMELOG(fuzz_time, f" -- Running simulations")
@@ -594,7 +595,7 @@ def run_refuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT,
 
         TU.TIMELOG(fuzz_time, f" -- Mutating testcases")
         testcases_to_mut = input_database.allocate_testcases_to_mut(testcases_to_mut, cb_vul_test)
-        num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs)
+        num_testcases_generated = fuzz.run_muts(testcases_to_mut, prog_mut_xargs, run_mode, cb_vul_test)
         num_mutations_after_seed_gen += num_testcases_generated
         TU.log(inputs_log_file, f"Mutation done | Total testcases = {input_database.num_testcases()}\n", fuzz_time)
         TU.TIMELOG(fuzz_time, f" -- Mutating testcases", True)

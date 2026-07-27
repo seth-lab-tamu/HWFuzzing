@@ -161,7 +161,13 @@ def sim_testcases(testcases_to_sim, testcase_ids, CONFIG_CORE_PT, CONFIG_EMU_PT,
 """
 This function mutates the testcases to generate new testcases
 """
-def run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test=False):
+def run_muts(
+    testcases_to_mut,
+    prog_mut_xargs,
+    run_mode,
+    cb_vul_test=False,
+    mutation_weights=None,
+):
 
     #mutate each of the program selected by the feedback engine
     mutation_prob = 100 #float(20) + float(80/num_progs_to_gen)
@@ -169,11 +175,40 @@ def run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test=False):
     num_testcases_generated = 0
     core = prog_mut_xargs[-2]
 
+    mut_prob_type = 'optimizer'
+    if run_mode == 'mabfuzz':
+        mut_prob_type = 'random'
+    elif run_mode == 'psofuzz':
+        mut_prob_type = 'pso'
+        assert mutation_weights is not None, \
+            "PSOFuzz requires one mutation-weight vector per particle"
+
     for testcase in testcases_to_mut:
+        testcase_weights = ''
+        if run_mode == 'psofuzz':
+            particle_id = testcase['particle_id']
+            assert 0 <= particle_id < len(mutation_weights), \
+                f"invalid PSOFuzz particle id {particle_id}"
+            testcase_weights = mutation_weights[particle_id]
         num_testcases_generated += len(testcase['new_hex_files'])
         for hex_file_out in testcase['new_hex_files']:
-            prog_mut.mutate_prog(testcase['hex_file'], hex_file_out, mutation_prob\
-                        , *prog_mut_xargs, 'optimizer')
+            if run_mode == 'psofuzz':
+                prog_mut.mutate_prog(
+                    testcase['hex_file'],
+                    hex_file_out,
+                    mutation_prob,
+                    *prog_mut_xargs,
+                    mut_prob_type,
+                    testcase_weights,
+                )
+            else:
+                prog_mut.mutate_prog(
+                    testcase['hex_file'],
+                    hex_file_out,
+                    mutation_prob,
+                    *prog_mut_xargs,
+                    mut_prob_type,
+                )
 
             riscv_file_out = hex_file_out.replace('hex','riscv')
             TU.hex_to_riscv(hex_file_out, riscv_file_out)
@@ -186,6 +221,7 @@ def run_muts(testcases_to_mut, prog_mut_xargs, cb_vul_test=False):
 def get_merge_mode(run_mode): 
     if run_mode in ['thehuzz']: merge_mode = 'incremental'
     elif run_mode in ['random', 'noptest']: merge_mode = 'direct'
+    elif run_mode in ['psofuzz']: merge_mode = 'pso'
     elif run_mode in ['mabfuzz', 'refuzztest']: merge_mode = 'mab'
     else: assert 0, f"unknown run mode {run_mode}"
     return merge_mode
@@ -503,7 +539,7 @@ def run_thehuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT, run_mode\
         if run_mode in ['thehuzz']: 
             TU.TIMELOG(fuzz_time, f" -- Mutating testcases")
             testcases_to_mut = input_database.allocate_testcases_to_mut(testcases_to_mut)
-            num_testcases_generated = run_muts(testcases_to_mut, prog_mut_xargs)
+            num_testcases_generated = run_muts(testcases_to_mut, prog_mut_xargs, run_mode)
             num_mutations_after_seed_gen += num_testcases_generated
             TU.log(inputs_log_file, f"Mutation done | Total testcases = {input_database.num_testcases()}\n", fuzz_time)
             TU.TIMELOG(fuzz_time, f" -- Mutating testcases", True)
@@ -679,6 +715,10 @@ def main(prog_time):
         TU.TIMELOG(prog_time, f" Running TheHuzz as random regression on given benchmark, {CONFIG.core_name}", False, True)
     elif CONFIG.run_mode == 'noptest':
         TU.TIMELOG(prog_time, f" Running NOP coverage baseline on given benchmark, {CONFIG.core_name}", False, True)
+    elif CONFIG.run_mode == 'mabfuzz':
+        TU.TIMELOG(prog_time, f" Running MABFuzz on given benchmark, {CONFIG.core_name}", False, True)
+    elif CONFIG.run_mode == 'psofuzz':
+        TU.TIMELOG(prog_time, f" Running PSOFuzz on given benchmark, {CONFIG.core_name}", False, True)
     elif CONFIG.run_mode == 'refuzztest': 
         TU.TIMELOG(prog_time, f" Running ReFuzz Testing on given benchmark, {CONFIG.core_name}", False, True)
     else: 
@@ -709,6 +749,35 @@ def main(prog_time):
                   , prog_gen_xargs,             prog_mut_xargs,         prog_sim_xargs\
                   , bug_detection_xargs, CONFIG.collect_interesting_tests\
                   , CONFIG.collect_cov_samples, CONFIG.cov_sample_interval, CONFIG.debug_print)
+    elif CONFIG.run_mode in ['mabfuzz']:
+        from mabfuzz.mabfuzz import run_mabfuzz
+        nop_cov_dict, nop_cov_sizes = load_noptest_cov(CONFIG.pt, CONFIG.core_name, CONFIG.cov_types)
+        TU.TIMELOG(prog_time, f" Loaded NOP coverage baseline sizes: {nop_cov_sizes}", False, True)
+        run_mabfuzz(prog_time, CONFIG.pt, CONFIG.CORE.pt, CONFIG.EMU.pt, CONFIG.run_mode\
+              , CONFIG.core_name, CONFIG.EMU.emu_name, CONFIG.max_fuzz_time\
+              , CONFIG.max_fuzz_progs, CONFIG.target_cov, CONFIG.sim_batch_size\
+              , CONFIG.seed_gen_interval\
+              , CONFIG.detecting_bugs, CONFIG.no_threads, CONFIG.store_elf_file\
+              , CONFIG.num_times_to_mut, CONFIG.val_muts, CONFIG.opc_muts\
+              , CONFIG.feedback_cov_types\
+              , CONFIG.mab_algo, CONFIG.mab_num_seed_arms, CONFIG.mab_n_picks_reset\
+              , CONFIG.all_cov_types\
+              , prog_gen_xargs, prog_mut_xargs, prog_sim_xargs\
+              , bug_detection_xargs, nop_cov_dict, CONFIG.collect_interesting_tests\
+              , CONFIG.collect_cov_samples, CONFIG.cov_sample_interval, CONFIG.debug_print)
+    elif CONFIG.run_mode in ['psofuzz']:
+        from psofuzz.psofuzz import run_psofuzz
+        nop_cov_dict, nop_cov_sizes = load_noptest_cov(CONFIG.pt, CONFIG.core_name, CONFIG.cov_types)
+        TU.TIMELOG(prog_time, f" Loaded NOP coverage baseline sizes: {nop_cov_sizes}", False, True)
+        run_psofuzz(prog_time, CONFIG.pt, CONFIG.CORE.pt, CONFIG.EMU.pt, CONFIG.run_mode\
+              , CONFIG.core_name, CONFIG.EMU.emu_name, CONFIG.max_fuzz_time\
+              , CONFIG.max_fuzz_progs, CONFIG.target_cov, CONFIG.sim_batch_size\
+              , CONFIG.detecting_bugs, CONFIG.no_threads, CONFIG.store_elf_file\
+              , CONFIG.val_muts, CONFIG.opc_muts, CONFIG.feedback_cov_types\
+              , prog_gen_xargs, prog_mut_xargs, prog_sim_xargs\
+              , bug_detection_xargs, nop_cov_dict, CONFIG.collect_interesting_tests\
+              , CONFIG.collect_cov_samples, CONFIG.cov_sample_interval, CONFIG.debug_print)
+
     elif CONFIG.run_mode in ['refuzztest']:
         from refuzz.refuzztest import run_refuzz
         nop_cov_dict, nop_cov_sizes = load_noptest_cov(CONFIG.pt, CONFIG.core_name, CONFIG.cov_types)

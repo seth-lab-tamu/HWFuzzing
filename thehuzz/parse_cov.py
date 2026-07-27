@@ -224,7 +224,8 @@ def merge_cov_dicts(cov_dicts_input, input_type, merge_mode='incremental', \
             cov_dicts_to_merge = cov_dicts_input
 
         merged_cov_dict, t = merge_cov_dicts_direct([cov_dicts_to_merge, None, input_type])
-      
+
+        incr_cov_num = 0
         # in the cov incr dict, only add the cov of last prog
         merged_cov_num = full_cov_to_cov_num(merged_cov_dict, True)
         if initial_cov != None:

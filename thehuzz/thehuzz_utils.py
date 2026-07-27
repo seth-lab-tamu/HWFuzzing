@@ -211,7 +211,7 @@ class DATABASE:
             self.run_mode = arg6
             mab_num_seed_arms = 0
 
-        if self.run_mode in ['refuzztest']:
+        if self.run_mode in ['mabfuzz', 'refuzztest']:
             self.seed_mab_new_testcases = [[] for i in range(mab_num_seed_arms)]
 
     def create_id(self):
@@ -248,7 +248,7 @@ class DATABASE:
             testcase['particle_id'] = particle_id
             testcase['seed_arm_id'] = seed_arm_id
 
-            if self.run_mode in ['refuzztest'] and cb_vul_test is False:
+            if self.run_mode in ['mabfuzz', 'refuzztest'] and cb_vul_test is False:
                 self.seed_mab_new_testcases[seed_arm_id].append(testcase)
             else:
                 self.new_testcases.append(testcase)
@@ -274,7 +274,7 @@ class DATABASE:
         return newly_added_testcases
     
     def get_testcases_to_sim(self, no_testcases, seed_arm_id='all', cb_vul_test=False): 
-        if self.run_mode in ['refuzztest'] and cb_vul_test == False:
+        if (self.run_mode == 'mabfuzz') or (self.run_mode == 'refuzztest' and cb_vul_test == False):
             seed_arm_num_new_testcases = self.num_new_testcases(seed_arm_id)
             assert seed_arm_num_new_testcases > 0, f"dont have any testcases, {seed_arm_num_new_testcases}, {seed_arm_id}"
             no_testcases = min(no_testcases, seed_arm_num_new_testcases)
@@ -309,7 +309,7 @@ class DATABASE:
                 new_testcase['particle_id'] = testcase['particle_id']
                 new_testcase['seed_arm_id'] = testcase['seed_arm_id']
 
-                if self.run_mode in ['refuzztest'] and cb_vul_test == False:
+                if (self.run_mode == 'mabfuzz') or (self.run_mode == 'refuzztest' and cb_vul_test == False):
                     self.seed_mab_new_testcases[testcase['seed_arm_id']].append(new_testcase)
                 else:
                     self.new_testcases.append(new_testcase)
@@ -326,7 +326,7 @@ class DATABASE:
         return self.num_new_testcases() + len(self.simulated_testcases)
 
     def num_new_testcases(self, seed_arm_id='all', cb_vul_test=False): 
-        if self.run_mode in ['refuzztest'] and cb_vul_test == False:
+        if (self.run_mode == 'mabfuzz') or (self.run_mode == 'refuzztest' and cb_vul_test == False):
             if seed_arm_id == 'all':
                 return sum(len(i) for i in self.seed_mab_new_testcases)
             else:

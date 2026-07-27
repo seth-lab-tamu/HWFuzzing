@@ -494,6 +494,12 @@ def det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
             i = [ "none" , "z" , "xxxxxxx", "xxx", "xxxxxxx"\
                     , "none", "1", 9999 ] + ["none"]
             m_type = random.choice(opc_muts)
+    elif mut_prob_type == 'random':
+        m_type = random.choices(val_muts+opc_muts, k=1)
+        m_type = m_type[0]
+        i = [ "none" , "z" , "xxxxxxx", "xxx", "xxxxxxx"\
+            , "none", "1", 9999 ] + ["none"]
+
     else: assert 0, f"unspecified mut_prob_type {mut_prob_type}"
 
     return i, m_type
