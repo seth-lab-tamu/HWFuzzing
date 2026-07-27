@@ -5,7 +5,7 @@ This script is used to mutate prog files
 
 - TODOs: 
 """
-import subprocess, os, random, sys, re
+import subprocess, os, random, sys, re, math
 from string import Template
 import logging as lg # critical, error, warning, info, debug
 from tqdm import tqdm
@@ -470,14 +470,16 @@ Determine the mutation technique to use for the instrn
 def det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
                    , optimizer_sol, val_muts, opc_muts, P=''):
 
+    # Value mutations need the decoded instruction fields. Opcode mutations can
+    # still operate when the instruction is not recognized.
+    got_inst = 0
+    for inst_op, inst_data in inst_list_all_w_ext.items():
+        if cmp_inst_fields(inst_bin, inst_data):
+            i = inst_data + [inst_op[0]]
+            got_inst = 1
+            break
+
     if mut_prob_type == 'optimizer': 
-        # get the inst type
-        got_inst = 0
-        for inst_op, inst_data in inst_list_all_w_ext.items():
-            if cmp_inst_fields(inst_bin, inst_data):
-                i = inst_data + [inst_op[0]]
-                got_inst = 1
-                break
         if got_inst: # recognized the inst type
             #mutations suggested by optimizer:
             try:
@@ -499,6 +501,40 @@ def det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
         m_type = m_type[0]
         i = [ "none" , "z" , "xxxxxxx", "xxx", "xxxxxxx"\
             , "none", "1", 9999 ] + ["none"]
+
+    elif mut_prob_type == 'pso':
+        mutation_types = val_muts + opc_muts
+        try:
+            mutation_weights = [float(weight) for weight in P]
+        except (TypeError, ValueError) as exc:
+            raise ValueError("PSOFuzz mutation weights must be numeric") from exc
+        if len(mutation_weights) != len(mutation_types):
+            raise ValueError(
+                "PSOFuzz mutation-weight count does not match mutation operators"
+            )
+        if (
+            any(not math.isfinite(weight) or weight < 0
+                for weight in mutation_weights)
+            or sum(mutation_weights) <= 0
+        ):
+            raise ValueError(
+                "PSOFuzz mutation weights must be finite, nonnegative, "
+                "and contain at least one positive value"
+            )
+
+        if got_inst:
+            available_mutations = mutation_types
+            available_weights = mutation_weights
+        else:
+            available_mutations = opc_muts
+            available_weights = mutation_weights[len(val_muts):]
+            if sum(available_weights) <= 0:
+                available_weights = [1] * len(available_mutations)
+            i = [ "none" , "z" , "xxxxxxx", "xxx", "xxxxxxx"\
+                , "none", "1", 9999 ] + ["none"]
+        m_type = random.choices(
+            available_mutations, weights=available_weights, k=1
+        )[0]
 
     else: assert 0, f"unspecified mut_prob_type {mut_prob_type}"
 
@@ -524,7 +560,7 @@ def mut_insts(insts_to_mut, mutation_prob, mut_prob_type, inst_list_all_w_ext\
 
         # determine mutation technique to use
         i, m_type = det_mut_for_inst(inst_bin, mut_prob_type, inst_list_all_w_ext\
-                   , optimizer_sol, val_muts, opc_muts, P='')
+                   , optimizer_sol, val_muts, opc_muts, P)
 
         # mutate the instrn
         if   (m_type == 0): inst_bin_rev_mutated = bitflip_1(inst_bin_rev,i)    

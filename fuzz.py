@@ -449,7 +449,7 @@ def run_thehuzz(fuzz_time, CONFIG_PT, CONFIG_CORE_PT, CONFIG_EMU_PT, run_mode\
         # update the log files
         cov_data_tot = parse_cov.full_cov_to_cov_num(merged_cov_dict)
         cov_data = { 'id': '', 'time': fuzz_time.get_time(False), 'incr': cov_data_tot, 'tot': cov_data_tot }
-        with jsonlines.open(CONFIG.pt['cov_log_file'], 'a') as fp: fp.write(cov_data)
+        with jsonlines.open(CONFIG_PT['cov_log_file'], 'a') as fp: fp.write(cov_data)
         TU.TIMELOG(fuzz_time, f" -- Loading input coverage data", True, True)
 
     #######################################

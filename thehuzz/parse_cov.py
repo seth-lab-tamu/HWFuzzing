@@ -196,6 +196,37 @@ def merge_cov_dicts_incremental(cov_dicts_input, input_type, initial_cov=None \
     return merged_cov_dict, cov_increment_dict
 
 
+def merge_cov_dicts_pso(
+    particle_seed_ids, cov_dicts_input, particle_initial_cov, input_type
+):
+    """Merge every PSOFuzz particle's coverage independently."""
+    cov_data_dict = get_cov_dicts(cov_dicts_input, input_type)
+    assert len(particle_seed_ids) == len(particle_initial_cov), \
+        "particle seed and coverage state counts do not match"
+
+    particle_merged_cov = []
+    tot_particle_merged_cov = []
+
+    for particle_id, seed_id in enumerate(particle_seed_ids):
+        seed_key = seed_id if seed_id in cov_data_dict else str(seed_id)
+        assert seed_key in cov_data_dict, \
+            f"coverage for PSOFuzz seed {seed_id} was not returned"
+        particle_coverage = cov_data_dict[seed_key]
+        initial_cov = particle_initial_cov[particle_id]
+        cov_dicts_to_merge = {seed_id: particle_coverage}
+        if initial_cov is not None:
+            cov_dicts_to_merge["initial"] = initial_cov
+        particle_cov = merge_cov_dicts_direct(
+            [cov_dicts_to_merge, None, "dict"]
+        )[0]
+        particle_merged_cov.append(particle_cov)
+        tot_particle_merged_cov.append(
+            full_cov_to_cov_num(particle_cov, True)
+        )
+
+    return particle_merged_cov, tot_particle_merged_cov
+
+
 """
 Merges the cov dicts either incrementally or directly based on the mode
 - merge_mode: 
@@ -240,6 +271,56 @@ def merge_cov_dicts(cov_dicts_input, input_type, merge_mode='incremental', \
                            , 'tot': merged_cov_num} }
 
         return merged_cov_dict, cov_increment_dict
+
+    elif merge_mode == 'pso':
+        assert particle_initial_cov is not None, \
+            "PSOFuzz requires per-particle initial coverage"
+        assert particle_seed_ids, "PSOFuzz requires particle seed ids"
+
+        particle_merged_cov, tot_particle_merged_cov = merge_cov_dicts_pso(
+            particle_seed_ids,
+            cov_dicts_input,
+            particle_initial_cov,
+            input_type,
+        )
+
+        global_cov_inputs = {
+            particle_id: particle_cov
+            for particle_id, particle_cov in enumerate(particle_merged_cov)
+        }
+        if initial_cov is not None:
+            global_cov_inputs["initial"] = initial_cov
+        merged_cov_dict = merge_cov_dicts_direct(
+            [global_cov_inputs, None, "dict"]
+        )[0]
+
+        merged_cov_num = full_cov_to_cov_num(merged_cov_dict, True)
+        if initial_cov is None:
+            increment_cov_num = dict(merged_cov_num)
+        else:
+            initial_cov_num = full_cov_to_cov_num(initial_cov, True)
+            increment_cov_num = {
+                cov_type: merged_cov_num[cov_type]
+                - initial_cov_num.get(cov_type, 0)
+                for cov_type in merged_cov_num
+            }
+
+        last_seed_id = max(particle_seed_ids)
+        cov_increment_dict = {
+            last_seed_id: {
+                'id': last_seed_id,
+                'time': time,
+                'num_progs': len(cov_dicts_input),
+                'incr': increment_cov_num,
+                'tot': merged_cov_num,
+            }
+        }
+        return (
+            merged_cov_dict,
+            cov_increment_dict,
+            particle_merged_cov,
+            tot_particle_merged_cov,
+        )
 
     elif merge_mode == 'mab': # get total merged cov and also arm's merged cov
 
