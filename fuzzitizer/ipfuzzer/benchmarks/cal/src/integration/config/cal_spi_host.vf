@@ -1,0 +1,3 @@
++incdir+${IPFUZZ_ROOT}/benchmarks/cal_spi_host/tb
+${IPFUZZ_ROOT}/benchmarks/cal_spi_host/tb/tb.sv
+${IPFUZZ_ROOT}/benchmarks/cal_spi_host/tb/sanitizers.sva

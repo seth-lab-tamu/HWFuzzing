@@ -1,5 +1,5 @@
 # HW_Fuzzing
-The repository includes hardware fuzzing techniques developed in the SETH lab: [TheHuzz](https://www.usenix.org/conference/usenixsecurity22/presentation/kande), [HyPFuzz](https://www.usenix.org/system/files/usenixsecurity23-chen-chen.pdf), [PSOFuzz](https://arxiv.org/abs/2307.14480), [MABFuzz](https://arxiv.org/abs/2311.14594), and [ReFuzz](https://arxiv.org/pdf/2512.04436).
+The repository includes hardware fuzzing techniques developed in the SETH lab: [TheHuzz](https://www.usenix.org/conference/usenixsecurity22/presentation/kande), [HyPFuzz](https://www.usenix.org/system/files/usenixsecurity23-chen-chen.pdf), [PSOFuzz](https://arxiv.org/abs/2307.14480), [MABFuzz](https://arxiv.org/abs/2311.14594), [ReFuzz](https://arxiv.org/pdf/2512.04436), and [FUZZItizer](https://dl.acm.org/doi/10.1145/3779208.3806078).
 
 #### Maintained by [Chen Chen](https://www.chenc.contact/), [Rahul Kande](https://www.rahulkande.com/), [Zeina AbuGhosh](https://www.linkedin.com/in/zeina-abughosh/), [Kody Kovacs](https://www.linkedin.com/in/kodyk5/), [Ted Hong](https://github.com/squishycat92).
 
@@ -17,6 +17,7 @@ ROOT_Repo/
 ├── psofuzz/                PSOFuzz campaign and particle-swarm scheduler
 ├── mabfuzz/                MABFuzz campaign and bandit policies
 ├── refuzz/                 ReFuzz collection, training, and testing code
+├── fuzzitizer/             FUZZItizer complete package including benchmarks and fuzzer
 ├── software/               RISC-V test-program build support
 ├── utils/                  Instruction lists, optimizer data, and simulator wrappers
 ├── input_seeds/            Seeds staged for the current campaign
@@ -235,6 +236,10 @@ python3 fuzz.py \
   -fd 1
 ```
 
+### FUZZItizer
+
+FUZZItizer is a SoC fuzzer with its own set of benchmarks and scripts. See its [documentation](fuzzitizer/README.md) for its setup and execution details.
+
 ## Publication
 BibTeX to cite TheHuzz:
 ```
@@ -283,5 +288,20 @@ BibTeX to cite ReFuzz:
   author={Chen, Chen and Xu, Zaiyan and Rostami, Mohamadreza and Liu, David and Kalathil, Dileep and Sadeghi, Ahmad-Reza and Rajendran, Jeyavijayan},
   journal={NDSS},
   year={2025}
+}
+```
+BibTeX to cite FUZZItizer:
+```
+@article{kande2026fuzzitizer,
+  author    = {Rahul Kande and Mohamadreza Rostami and Chen Chen and
+               Hareesh Khattri and Jason M. Fung and Ahmad-Reza Sadeghi and
+               Jeyavijayan Rajendran},
+  title     = {{FUZZItizer: Hardware Sanitizer-Assisted Fuzzing for Automated
+                SoC Vulnerability Detection}},
+  journal   = {Proceedings of the 2026 ACM Asia Conference on Computer and
+               Communications Security},
+  year      = {2026},
+  pages     = {1139--1155},
+  doi       = {10.1145/3779208.3806078}
 }
 ```

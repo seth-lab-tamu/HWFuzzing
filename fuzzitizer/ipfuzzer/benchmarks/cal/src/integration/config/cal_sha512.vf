@@ -1,0 +1,3 @@
++incdir+${IPFUZZ_ROOT}/benchmarks/cal_sha512/tb
+${IPFUZZ_ROOT}/benchmarks/cal_sha512/tb/tb.sv
+${IPFUZZ_ROOT}/benchmarks/cal_sha512/tb/sanitizers.sva

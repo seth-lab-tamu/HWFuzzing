@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+
+: "${IPFUZZ_ROOT:?IPFUZZ_ROOT is not set; source the parent FUZZItizer environment}"
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+cd "${script_dir}"
+
+peripherals=(
+    opn_aes0 opn_aes1 opn_aes2 opn_acct opn_dbg opn_dma
+    opn_hmac opn_reglk opn_rng opn_rsa opn_rst opn_sha256
+    cal_csrng cal_doe cal_dv cal_ecc cal_entropy_src cal_hmac
+    cal_kv cal_pv cal_spi_host cal_sha256 cal_sha512 cal_uart
+)
+
+for peripheral in "${peripherals[@]}"; do
+    echo "Running IPFuzzer for ${peripheral}"
+    python3 fuzz.py -co "${peripheral}"
+done

@@ -1,0 +1,4 @@
+jsonlines
+numpy
+pyverilog
+tqdm

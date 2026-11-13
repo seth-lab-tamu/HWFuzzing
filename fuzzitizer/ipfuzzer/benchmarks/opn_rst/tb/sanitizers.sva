@@ -1,0 +1,45 @@
+module opn_rst_v_dut
+  (rst_ni);
+  input rst_ni;
+
+// sanitizers here
+typedef logic [$bits(opn_rst_tb.perif_u.rst_id)-1:0] t_InRstDom_0000;
+property p_InRstDom_0000;
+@(posedge opn_rst_tb.perif_u.clk_i) (!opn_rst_tb.rst_ni) |=> ~|(t_InRstDom_0000'({>>{opn_rst_tb.perif_u.rst_id}}) === {$bits(opn_rst_tb.perif_u.rst_id){1'bx}});
+endproperty;
+a_InRstDom_0000: assert property(p_InRstDom_0000) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_rst_tb.perif_u.rst_id=%h", $time, $sampled(t_InRstDom_0000'({>>{opn_rst_tb.perif_u.rst_id}})));
+typedef logic [$bits(opn_rst_tb.perif_u.rst_mem)-1:0] t_InRstDom_0001;
+property p_InRstDom_0001;
+@(posedge opn_rst_tb.perif_u.clk_i) (!opn_rst_tb.rst_ni) |=> ~|(t_InRstDom_0001'({>>{opn_rst_tb.perif_u.rst_mem}}) === {$bits(opn_rst_tb.perif_u.rst_mem){1'bx}});
+endproperty;
+a_InRstDom_0001: assert property(p_InRstDom_0001) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_rst_tb.perif_u.rst_mem=%h", $time, $sampled(t_InRstDom_0001'({>>{opn_rst_tb.perif_u.rst_mem}})));
+typedef logic [$bits(opn_rst_tb.perif_u.start)-1:0] t_InRstDom_0002;
+property p_InRstDom_0002;
+@(posedge opn_rst_tb.perif_u.clk_i) (!opn_rst_tb.rst_ni) |=> ~|(t_InRstDom_0002'({>>{opn_rst_tb.perif_u.start}}) === {$bits(opn_rst_tb.perif_u.start){1'bx}});
+endproperty;
+a_InRstDom_0002: assert property(p_InRstDom_0002) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_rst_tb.perif_u.start=%h", $time, $sampled(t_InRstDom_0002'({>>{opn_rst_tb.perif_u.start}})));
+
+// FSM sanitizers of rst_wrapper modules instances
+
+typedef logic [$bits(opn_rst_tb.perif_u.rst_id)-1:0] t_clrOnDbg_0003;
+property p_clrOnDbg_0003;
+@(posedge opn_rst_tb.perif_u.clk_i) $rose(opn_rst_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0003'({>>{opn_rst_tb.perif_u.rst_id}}));
+endproperty;
+a_clrOnDbg_0003: assert property(p_clrOnDbg_0003) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_rst_tb.perif_u.rst_id=%h", $time, $sampled(t_clrOnDbg_0003'({>>{opn_rst_tb.perif_u.rst_id}})));
+typedef logic [$bits(opn_rst_tb.perif_u.rst_mem)-1:0] t_clrOnDbg_0004;
+property p_clrOnDbg_0004;
+@(posedge opn_rst_tb.perif_u.clk_i) $rose(opn_rst_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0004'({>>{opn_rst_tb.perif_u.rst_mem}}));
+endproperty;
+a_clrOnDbg_0004: assert property(p_clrOnDbg_0004) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_rst_tb.perif_u.rst_mem=%h", $time, $sampled(t_clrOnDbg_0004'({>>{opn_rst_tb.perif_u.rst_mem}})));
+typedef logic [$bits(opn_rst_tb.perif_u.start)-1:0] t_clrOnDbg_0005;
+property p_clrOnDbg_0005;
+@(posedge opn_rst_tb.perif_u.clk_i) $rose(opn_rst_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0005'({>>{opn_rst_tb.perif_u.start}}));
+endproperty;
+a_clrOnDbg_0005: assert property(p_clrOnDbg_0005) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_rst_tb.perif_u.start=%h", $time, $sampled(t_clrOnDbg_0005'({>>{opn_rst_tb.perif_u.start}})));
+endmodule
+
+
+bind opn_rst_tb
+ opn_rst_v_dut
+ i_bind_dut
+  (.rst_ni (rst_ni));

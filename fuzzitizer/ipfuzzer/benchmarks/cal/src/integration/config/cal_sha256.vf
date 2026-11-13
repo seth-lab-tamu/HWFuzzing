@@ -1,0 +1,3 @@
++incdir+${IPFUZZ_ROOT}/benchmarks/cal_sha256/tb
+${IPFUZZ_ROOT}/benchmarks/cal_sha256/tb/tb.sv
+${IPFUZZ_ROOT}/benchmarks/cal_sha256/tb/sanitizers.sva

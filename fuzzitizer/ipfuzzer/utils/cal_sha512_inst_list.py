@@ -1,0 +1,15 @@
+l = [ 
+    "cal_sha512_tb.perif_u.sha512_inst"
+    ,"cal_sha512_tb.perif_u.sha512_inst.core"
+    ,"cal_sha512_tb.perif_u.sha512_inst.core.k_constants_inst"
+    ,"cal_sha512_tb.perif_u.sha512_inst.core.h_constants_inst"
+    ,"cal_sha512_tb.perif_u.sha512_inst.core.w_mem_inst"
+    ,"cal_sha512_tb.perif_u.sha512_inst.i_sha512_reg"
+    ,"cal_sha512_tb.perif_u.sha512_inst.sha512_block_kv_read"
+    ,"cal_sha512_tb.perif_u.sha512_inst.sha512_block_kv_read.kv_read_fsm"
+    ,"cal_sha512_tb.perif_u.sha512_inst.sha512_result_kv_write"
+    ,"cal_sha512_tb.perif_u.sha512_inst.sha512_result_kv_write.kv_dest_write_fsm"
+    ,"cal_sha512_tb.perif_u.sha512_inst.pv_gen_hash1"
+    ,"cal_sha512_tb.perif_u"
+    ,"cal_sha512_tb.i_bind_dut"
+    ]
