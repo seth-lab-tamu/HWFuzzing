@@ -1,0 +1,3 @@
++incdir+${IPFUZZ_ROOT}/benchmarks/cal_hmac/tb
+${IPFUZZ_ROOT}/benchmarks/cal_hmac/tb/tb.sv
+${IPFUZZ_ROOT}/benchmarks/cal_hmac/tb/sanitizers.sva

@@ -1,0 +1,75 @@
+module opn_reglk_v_dut
+  (rst_ni);
+  input rst_ni;
+
+// sanitizers here
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[0])-1:0] t_InRstDom_0000;
+property p_InRstDom_0000;
+@(posedge opn_reglk_tb.perif_u.clk_i) (!opn_reglk_tb.rst_ni) |=> ~|(t_InRstDom_0000'({>>{opn_reglk_tb.perif_u.reglk_mem[0]}}) === {$bits(opn_reglk_tb.perif_u.reglk_mem[0]){1'bx}});
+endproperty;
+a_InRstDom_0000: assert property(p_InRstDom_0000) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_reglk_tb.perif_u.reglk_mem[0]=%h", $time, $sampled(t_InRstDom_0000'({>>{opn_reglk_tb.perif_u.reglk_mem[0]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[1])-1:0] t_InRstDom_0001;
+property p_InRstDom_0001;
+@(posedge opn_reglk_tb.perif_u.clk_i) (!opn_reglk_tb.rst_ni) |=> ~|(t_InRstDom_0001'({>>{opn_reglk_tb.perif_u.reglk_mem[1]}}) === {$bits(opn_reglk_tb.perif_u.reglk_mem[1]){1'bx}});
+endproperty;
+a_InRstDom_0001: assert property(p_InRstDom_0001) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_reglk_tb.perif_u.reglk_mem[1]=%h", $time, $sampled(t_InRstDom_0001'({>>{opn_reglk_tb.perif_u.reglk_mem[1]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[2])-1:0] t_InRstDom_0002;
+property p_InRstDom_0002;
+@(posedge opn_reglk_tb.perif_u.clk_i) (!opn_reglk_tb.rst_ni) |=> ~|(t_InRstDom_0002'({>>{opn_reglk_tb.perif_u.reglk_mem[2]}}) === {$bits(opn_reglk_tb.perif_u.reglk_mem[2]){1'bx}});
+endproperty;
+a_InRstDom_0002: assert property(p_InRstDom_0002) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_reglk_tb.perif_u.reglk_mem[2]=%h", $time, $sampled(t_InRstDom_0002'({>>{opn_reglk_tb.perif_u.reglk_mem[2]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[3])-1:0] t_InRstDom_0003;
+property p_InRstDom_0003;
+@(posedge opn_reglk_tb.perif_u.clk_i) (!opn_reglk_tb.rst_ni) |=> ~|(t_InRstDom_0003'({>>{opn_reglk_tb.perif_u.reglk_mem[3]}}) === {$bits(opn_reglk_tb.perif_u.reglk_mem[3]){1'bx}});
+endproperty;
+a_InRstDom_0003: assert property(p_InRstDom_0003) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_reglk_tb.perif_u.reglk_mem[3]=%h", $time, $sampled(t_InRstDom_0003'({>>{opn_reglk_tb.perif_u.reglk_mem[3]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[4])-1:0] t_InRstDom_0004;
+property p_InRstDom_0004;
+@(posedge opn_reglk_tb.perif_u.clk_i) (!opn_reglk_tb.rst_ni) |=> ~|(t_InRstDom_0004'({>>{opn_reglk_tb.perif_u.reglk_mem[4]}}) === {$bits(opn_reglk_tb.perif_u.reglk_mem[4]){1'bx}});
+endproperty;
+a_InRstDom_0004: assert property(p_InRstDom_0004) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_reglk_tb.perif_u.reglk_mem[4]=%h", $time, $sampled(t_InRstDom_0004'({>>{opn_reglk_tb.perif_u.reglk_mem[4]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[5])-1:0] t_InRstDom_0005;
+property p_InRstDom_0005;
+@(posedge opn_reglk_tb.perif_u.clk_i) (!opn_reglk_tb.rst_ni) |=> ~|(t_InRstDom_0005'({>>{opn_reglk_tb.perif_u.reglk_mem[5]}}) === {$bits(opn_reglk_tb.perif_u.reglk_mem[5]){1'bx}});
+endproperty;
+a_InRstDom_0005: assert property(p_InRstDom_0005) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_reglk_tb.perif_u.reglk_mem[5]=%h", $time, $sampled(t_InRstDom_0005'({>>{opn_reglk_tb.perif_u.reglk_mem[5]}})));
+
+// FSM sanitizers of reglk_wrapper modules instances
+
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[0])-1:0] t_clrOnDbg_0006;
+property p_clrOnDbg_0006;
+@(posedge opn_reglk_tb.perif_u.clk_i) $rose(opn_reglk_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0006'({>>{opn_reglk_tb.perif_u.reglk_mem[0]}}));
+endproperty;
+a_clrOnDbg_0006: assert property(p_clrOnDbg_0006) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_reglk_tb.perif_u.reglk_mem[0]=%h", $time, $sampled(t_clrOnDbg_0006'({>>{opn_reglk_tb.perif_u.reglk_mem[0]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[1])-1:0] t_clrOnDbg_0007;
+property p_clrOnDbg_0007;
+@(posedge opn_reglk_tb.perif_u.clk_i) $rose(opn_reglk_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0007'({>>{opn_reglk_tb.perif_u.reglk_mem[1]}}));
+endproperty;
+a_clrOnDbg_0007: assert property(p_clrOnDbg_0007) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_reglk_tb.perif_u.reglk_mem[1]=%h", $time, $sampled(t_clrOnDbg_0007'({>>{opn_reglk_tb.perif_u.reglk_mem[1]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[2])-1:0] t_clrOnDbg_0008;
+property p_clrOnDbg_0008;
+@(posedge opn_reglk_tb.perif_u.clk_i) $rose(opn_reglk_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0008'({>>{opn_reglk_tb.perif_u.reglk_mem[2]}}));
+endproperty;
+a_clrOnDbg_0008: assert property(p_clrOnDbg_0008) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_reglk_tb.perif_u.reglk_mem[2]=%h", $time, $sampled(t_clrOnDbg_0008'({>>{opn_reglk_tb.perif_u.reglk_mem[2]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[3])-1:0] t_clrOnDbg_0009;
+property p_clrOnDbg_0009;
+@(posedge opn_reglk_tb.perif_u.clk_i) $rose(opn_reglk_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0009'({>>{opn_reglk_tb.perif_u.reglk_mem[3]}}));
+endproperty;
+a_clrOnDbg_0009: assert property(p_clrOnDbg_0009) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_reglk_tb.perif_u.reglk_mem[3]=%h", $time, $sampled(t_clrOnDbg_0009'({>>{opn_reglk_tb.perif_u.reglk_mem[3]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[4])-1:0] t_clrOnDbg_0010;
+property p_clrOnDbg_0010;
+@(posedge opn_reglk_tb.perif_u.clk_i) $rose(opn_reglk_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0010'({>>{opn_reglk_tb.perif_u.reglk_mem[4]}}));
+endproperty;
+a_clrOnDbg_0010: assert property(p_clrOnDbg_0010) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_reglk_tb.perif_u.reglk_mem[4]=%h", $time, $sampled(t_clrOnDbg_0010'({>>{opn_reglk_tb.perif_u.reglk_mem[4]}})));
+typedef logic [$bits(opn_reglk_tb.perif_u.reglk_mem[5])-1:0] t_clrOnDbg_0011;
+property p_clrOnDbg_0011;
+@(posedge opn_reglk_tb.perif_u.clk_i) $rose(opn_reglk_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0011'({>>{opn_reglk_tb.perif_u.reglk_mem[5]}}));
+endproperty;
+a_clrOnDbg_0011: assert property(p_clrOnDbg_0011) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_reglk_tb.perif_u.reglk_mem[5]=%h", $time, $sampled(t_clrOnDbg_0011'({>>{opn_reglk_tb.perif_u.reglk_mem[5]}})));
+endmodule
+
+
+bind opn_reglk_tb
+ opn_reglk_v_dut
+ i_bind_dut
+  (.rst_ni (rst_ni));

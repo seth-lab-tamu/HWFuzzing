@@ -1,0 +1,677 @@
+module opn_dma_v_dut
+  (rst_ni);
+  input rst_ni;
+
+// sanitizers here
+typedef logic [$bits(opn_dma_tb.perif_u.core_lock_reg)-1:0] t_InRstDom_0000;
+property p_InRstDom_0000;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0000'({>>{opn_dma_tb.perif_u.core_lock_reg}}) === {$bits(opn_dma_tb.perif_u.core_lock_reg){1'bx}});
+endproperty;
+a_InRstDom_0000: assert property(p_InRstDom_0000) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.core_lock_reg=%h", $time, $sampled(t_InRstDom_0000'({>>{opn_dma_tb.perif_u.core_lock_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.dest_addr_lsb_reg)-1:0] t_InRstDom_0001;
+property p_InRstDom_0001;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0001'({>>{opn_dma_tb.perif_u.dest_addr_lsb_reg}}) === {$bits(opn_dma_tb.perif_u.dest_addr_lsb_reg){1'bx}});
+endproperty;
+a_InRstDom_0001: assert property(p_InRstDom_0001) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.dest_addr_lsb_reg=%h", $time, $sampled(t_InRstDom_0001'({>>{opn_dma_tb.perif_u.dest_addr_lsb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.dest_addr_msb_reg)-1:0] t_InRstDom_0002;
+property p_InRstDom_0002;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0002'({>>{opn_dma_tb.perif_u.dest_addr_msb_reg}}) === {$bits(opn_dma_tb.perif_u.dest_addr_msb_reg){1'bx}});
+endproperty;
+a_InRstDom_0002: assert property(p_InRstDom_0002) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.dest_addr_msb_reg=%h", $time, $sampled(t_InRstDom_0002'({>>{opn_dma_tb.perif_u.dest_addr_msb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.done_reg)-1:0] t_InRstDom_0003;
+property p_InRstDom_0003;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0003'({>>{opn_dma_tb.perif_u.done_reg}}) === {$bits(opn_dma_tb.perif_u.done_reg){1'bx}});
+endproperty;
+a_InRstDom_0003: assert property(p_InRstDom_0003) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.done_reg=%h", $time, $sampled(t_InRstDom_0003'({>>{opn_dma_tb.perif_u.done_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.end_reg)-1:0] t_InRstDom_0004;
+property p_InRstDom_0004;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0004'({>>{opn_dma_tb.perif_u.end_reg}}) === {$bits(opn_dma_tb.perif_u.end_reg){1'bx}});
+endproperty;
+a_InRstDom_0004: assert property(p_InRstDom_0004) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.end_reg=%h", $time, $sampled(t_InRstDom_0004'({>>{opn_dma_tb.perif_u.end_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.length_reg)-1:0] t_InRstDom_0005;
+property p_InRstDom_0005;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0005'({>>{opn_dma_tb.perif_u.length_reg}}) === {$bits(opn_dma_tb.perif_u.length_reg){1'bx}});
+endproperty;
+a_InRstDom_0005: assert property(p_InRstDom_0005) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.length_reg=%h", $time, $sampled(t_InRstDom_0005'({>>{opn_dma_tb.perif_u.length_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.source_addr_lsb_reg)-1:0] t_InRstDom_0006;
+property p_InRstDom_0006;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0006'({>>{opn_dma_tb.perif_u.source_addr_lsb_reg}}) === {$bits(opn_dma_tb.perif_u.source_addr_lsb_reg){1'bx}});
+endproperty;
+a_InRstDom_0006: assert property(p_InRstDom_0006) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.source_addr_lsb_reg=%h", $time, $sampled(t_InRstDom_0006'({>>{opn_dma_tb.perif_u.source_addr_lsb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.source_addr_msb_reg)-1:0] t_InRstDom_0007;
+property p_InRstDom_0007;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0007'({>>{opn_dma_tb.perif_u.source_addr_msb_reg}}) === {$bits(opn_dma_tb.perif_u.source_addr_msb_reg){1'bx}});
+endproperty;
+a_InRstDom_0007: assert property(p_InRstDom_0007) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.source_addr_msb_reg=%h", $time, $sampled(t_InRstDom_0007'({>>{opn_dma_tb.perif_u.source_addr_msb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.start_reg)-1:0] t_InRstDom_0008;
+property p_InRstDom_0008;
+@(posedge opn_dma_tb.perif_u.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0008'({>>{opn_dma_tb.perif_u.start_reg}}) === {$bits(opn_dma_tb.perif_u.start_reg){1'bx}});
+endproperty;
+a_InRstDom_0008: assert property(p_InRstDom_0008) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.start_reg=%h", $time, $sampled(t_InRstDom_0008'({>>{opn_dma_tb.perif_u.start_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d)-1:0] t_InRstDom_0009;
+property p_InRstDom_0009;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0009'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d}}) === {$bits(opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d){1'bx}});
+endproperty;
+a_InRstDom_0009: assert property(p_InRstDom_0009) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d=%h", $time, $sampled(t_InRstDom_0009'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.dest_addr_msb_d)-1:0] t_InRstDom_0010;
+property p_InRstDom_0010;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0010'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_msb_d}}) === {$bits(opn_dma_tb.perif_u.u_dma.dest_addr_msb_d){1'bx}});
+endproperty;
+a_InRstDom_0010: assert property(p_InRstDom_0010) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.dest_addr_msb_d=%h", $time, $sampled(t_InRstDom_0010'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_msb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg)-1:0] t_InRstDom_0011;
+property p_InRstDom_0011;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0011'({>>{opn_dma_tb.perif_u.u_dma.dma_ctrl_reg}}) === {$bits(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg){1'bx}});
+endproperty;
+a_InRstDom_0011: assert property(p_InRstDom_0011) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h", $time, $sampled(t_InRstDom_0011'({>>{opn_dma_tb.perif_u.u_dma.dma_ctrl_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.length_d)-1:0] t_InRstDom_0012;
+property p_InRstDom_0012;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0012'({>>{opn_dma_tb.perif_u.u_dma.length_d}}) === {$bits(opn_dma_tb.perif_u.u_dma.length_d){1'bx}});
+endproperty;
+a_InRstDom_0012: assert property(p_InRstDom_0012) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.length_d=%h", $time, $sampled(t_InRstDom_0012'({>>{opn_dma_tb.perif_u.u_dma.length_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_access_type_reg)-1:0] t_InRstDom_0013;
+property p_InRstDom_0013;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0013'({>>{opn_dma_tb.perif_u.u_dma.pmp_access_type_reg}}) === {$bits(opn_dma_tb.perif_u.u_dma.pmp_access_type_reg){1'bx}});
+endproperty;
+a_InRstDom_0013: assert property(p_InRstDom_0013) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_access_type_reg=%h", $time, $sampled(t_InRstDom_0013'({>>{opn_dma_tb.perif_u.u_dma.pmp_access_type_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_addr_reg)-1:0] t_InRstDom_0014;
+property p_InRstDom_0014;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0014'({>>{opn_dma_tb.perif_u.u_dma.pmp_addr_reg}}) === {$bits(opn_dma_tb.perif_u.u_dma.pmp_addr_reg){1'bx}});
+endproperty;
+a_InRstDom_0014: assert property(p_InRstDom_0014) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_addr_reg=%h", $time, $sampled(t_InRstDom_0014'({>>{opn_dma_tb.perif_u.u_dma.pmp_addr_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_allow_reg)-1:0] t_InRstDom_0015;
+property p_InRstDom_0015;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0015'({>>{opn_dma_tb.perif_u.u_dma.pmp_allow_reg}}) === {$bits(opn_dma_tb.perif_u.u_dma.pmp_allow_reg){1'bx}});
+endproperty;
+a_InRstDom_0015: assert property(p_InRstDom_0015) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_allow_reg=%h", $time, $sampled(t_InRstDom_0015'({>>{opn_dma_tb.perif_u.u_dma.pmp_allow_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg)-1:0] t_InRstDom_0016;
+property p_InRstDom_0016;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0016'({>>{opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg}}) === {$bits(opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg){1'bx}});
+endproperty;
+a_InRstDom_0016: assert property(p_InRstDom_0016) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg=%h", $time, $sampled(t_InRstDom_0016'({>>{opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.source_addr_lsb_d)-1:0] t_InRstDom_0017;
+property p_InRstDom_0017;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0017'({>>{opn_dma_tb.perif_u.u_dma.source_addr_lsb_d}}) === {$bits(opn_dma_tb.perif_u.u_dma.source_addr_lsb_d){1'bx}});
+endproperty;
+a_InRstDom_0017: assert property(p_InRstDom_0017) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.source_addr_lsb_d=%h", $time, $sampled(t_InRstDom_0017'({>>{opn_dma_tb.perif_u.u_dma.source_addr_lsb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.source_addr_msb_d)-1:0] t_InRstDom_0018;
+property p_InRstDom_0018;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0018'({>>{opn_dma_tb.perif_u.u_dma.source_addr_msb_d}}) === {$bits(opn_dma_tb.perif_u.u_dma.source_addr_msb_d){1'bx}});
+endproperty;
+a_InRstDom_0018: assert property(p_InRstDom_0018) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.source_addr_msb_d=%h", $time, $sampled(t_InRstDom_0018'({>>{opn_dma_tb.perif_u.u_dma.source_addr_msb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.start_d)-1:0] t_InRstDom_0019;
+property p_InRstDom_0019;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0019'({>>{opn_dma_tb.perif_u.u_dma.start_d}}) === {$bits(opn_dma_tb.perif_u.u_dma.start_d){1'bx}});
+endproperty;
+a_InRstDom_0019: assert property(p_InRstDom_0019) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.start_d=%h", $time, $sampled(t_InRstDom_0019'({>>{opn_dma_tb.perif_u.u_dma.start_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.valid_reg)-1:0] t_InRstDom_0020;
+property p_InRstDom_0020;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) (!opn_dma_tb.rst_ni) |=> ~|(t_InRstDom_0020'({>>{opn_dma_tb.perif_u.u_dma.valid_reg}}) === {$bits(opn_dma_tb.perif_u.u_dma.valid_reg){1'bx}});
+endproperty;
+a_InRstDom_0020: assert property(p_InRstDom_0020) else $display("ERROR, Sanitizer:InRstDom, time=%4d, opn_dma_tb.perif_u.u_dma.valid_reg=%h", $time, $sampled(t_InRstDom_0020'({>>{opn_dma_tb.perif_u.u_dma.valid_reg}})));
+
+// FSM sanitizers of dma_wrapper modules instances
+
+// FSM sanitizers of dma modules instances
+property p_defUndefFsmTran_0021;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0021: assert property(p_defUndefFsmTran_0021) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_defUndefFsmTran_0022;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0022: assert property(p_defUndefFsmTran_0022) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_defUndefFsmTran_0023;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0023: assert property(p_defUndefFsmTran_0023) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_defUndefFsmTran_0024;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0024: assert property(p_defUndefFsmTran_0024) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_defUndefFsmTran_0025;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0025: assert property(p_defUndefFsmTran_0025) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_defUndefFsmTran_0026;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0026: assert property(p_defUndefFsmTran_0026) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_defUndefFsmTran_0027;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf});
+endproperty;
+a_defUndefFsmTran_0027: assert property(p_defUndefFsmTran_0027) else $display("ERROR, Sanitizer:defUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_fromUndefFsmTran_0028;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg inside {4'h2,4'h5,4'h9,4'ha,4'hb,4'hc,4'hd,4'he,4'hf}) |=> (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 0);
+endproperty;
+a_fromUndefFsmTran_0028: assert property(p_fromUndefFsmTran_0028) else $display("ERROR, Sanitizer:fromUndefFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_reachDefFsmState_0029;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmState_0029_reported = 1'b0;
+a_reachDefFsmState_0029: cover property(p_reachDefFsmState_0029) begin
+  if (!c_reachDefFsmState_0029_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0029, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h8", $time);
+    c_reachDefFsmState_0029_reported = 1'b1;
+  end
+end
+property p_reachDefFsmState_0030;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+bit c_reachDefFsmState_0030_reported = 1'b0;
+a_reachDefFsmState_0030: cover property(p_reachDefFsmState_0030) begin
+  if (!c_reachDefFsmState_0030_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0030, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h1", $time);
+    c_reachDefFsmState_0030_reported = 1'b1;
+  end
+end
+property p_reachDefFsmState_0031;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+bit c_reachDefFsmState_0031_reported = 1'b0;
+a_reachDefFsmState_0031: cover property(p_reachDefFsmState_0031) begin
+  if (!c_reachDefFsmState_0031_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0031, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h4", $time);
+    c_reachDefFsmState_0031_reported = 1'b1;
+  end
+end
+property p_reachDefFsmState_0032;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+bit c_reachDefFsmState_0032_reported = 1'b0;
+a_reachDefFsmState_0032: cover property(p_reachDefFsmState_0032) begin
+  if (!c_reachDefFsmState_0032_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0032, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h7", $time);
+    c_reachDefFsmState_0032_reported = 1'b1;
+  end
+end
+property p_reachDefFsmState_0033;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmState_0033_reported = 1'b0;
+a_reachDefFsmState_0033: cover property(p_reachDefFsmState_0033) begin
+  if (!c_reachDefFsmState_0033_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0033, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h0", $time);
+    c_reachDefFsmState_0033_reported = 1'b1;
+  end
+end
+property p_reachDefFsmState_0034;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmState_0034_reported = 1'b0;
+a_reachDefFsmState_0034: cover property(p_reachDefFsmState_0034) begin
+  if (!c_reachDefFsmState_0034_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0034, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h3", $time);
+    c_reachDefFsmState_0034_reported = 1'b1;
+  end
+end
+property p_reachDefFsmState_0035;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+bit c_reachDefFsmState_0035_reported = 1'b0;
+a_reachDefFsmState_0035: cover property(p_reachDefFsmState_0035) begin
+  if (!c_reachDefFsmState_0035_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmState, id=reachDefFsmState_0035, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, state=4'h6", $time);
+    c_reachDefFsmState_0035_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0036;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h8) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0036_reported = 1'b0;
+a_reachDefFsmTran_0036: cover property(p_reachDefFsmTran_0036) begin
+  if (!c_reachDefFsmTran_0036_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0036, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h8, to=4'h8", $time);
+    c_reachDefFsmTran_0036_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0037;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h8) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+bit c_reachDefFsmTran_0037_reported = 1'b0;
+a_reachDefFsmTran_0037: cover property(p_reachDefFsmTran_0037) begin
+  if (!c_reachDefFsmTran_0037_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0037, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h8, to=4'h7", $time);
+    c_reachDefFsmTran_0037_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0038;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h8) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0038_reported = 1'b0;
+a_reachDefFsmTran_0038: cover property(p_reachDefFsmTran_0038) begin
+  if (!c_reachDefFsmTran_0038_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0038, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h8, to=4'h0", $time);
+    c_reachDefFsmTran_0038_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0039;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h8) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0039_reported = 1'b0;
+a_reachDefFsmTran_0039: cover property(p_reachDefFsmTran_0039) begin
+  if (!c_reachDefFsmTran_0039_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0039, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h8, to=4'h3", $time);
+    c_reachDefFsmTran_0039_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0040;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h1) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0040_reported = 1'b0;
+a_reachDefFsmTran_0040: cover property(p_reachDefFsmTran_0040) begin
+  if (!c_reachDefFsmTran_0040_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0040, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h1, to=4'h8", $time);
+    c_reachDefFsmTran_0040_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0041;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h1) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+bit c_reachDefFsmTran_0041_reported = 1'b0;
+a_reachDefFsmTran_0041: cover property(p_reachDefFsmTran_0041) begin
+  if (!c_reachDefFsmTran_0041_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0041, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h1, to=4'h4", $time);
+    c_reachDefFsmTran_0041_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0042;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h1) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0042_reported = 1'b0;
+a_reachDefFsmTran_0042: cover property(p_reachDefFsmTran_0042) begin
+  if (!c_reachDefFsmTran_0042_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0042, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h1, to=4'h0", $time);
+    c_reachDefFsmTran_0042_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0043;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h1) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0043_reported = 1'b0;
+a_reachDefFsmTran_0043: cover property(p_reachDefFsmTran_0043) begin
+  if (!c_reachDefFsmTran_0043_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0043, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h1, to=4'h3", $time);
+    c_reachDefFsmTran_0043_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0044;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h4) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0044_reported = 1'b0;
+a_reachDefFsmTran_0044: cover property(p_reachDefFsmTran_0044) begin
+  if (!c_reachDefFsmTran_0044_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0044, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h4, to=4'h8", $time);
+    c_reachDefFsmTran_0044_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0045;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h4) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+bit c_reachDefFsmTran_0045_reported = 1'b0;
+a_reachDefFsmTran_0045: cover property(p_reachDefFsmTran_0045) begin
+  if (!c_reachDefFsmTran_0045_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0045, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h4, to=4'h7", $time);
+    c_reachDefFsmTran_0045_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0046;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h4) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0046_reported = 1'b0;
+a_reachDefFsmTran_0046: cover property(p_reachDefFsmTran_0046) begin
+  if (!c_reachDefFsmTran_0046_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0046, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h4, to=4'h0", $time);
+    c_reachDefFsmTran_0046_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0047;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h4) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0047_reported = 1'b0;
+a_reachDefFsmTran_0047: cover property(p_reachDefFsmTran_0047) begin
+  if (!c_reachDefFsmTran_0047_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0047, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h4, to=4'h3", $time);
+    c_reachDefFsmTran_0047_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0048;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h4) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+bit c_reachDefFsmTran_0048_reported = 1'b0;
+a_reachDefFsmTran_0048: cover property(p_reachDefFsmTran_0048) begin
+  if (!c_reachDefFsmTran_0048_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0048, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h4, to=4'h6", $time);
+    c_reachDefFsmTran_0048_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0049;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h7) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0049_reported = 1'b0;
+a_reachDefFsmTran_0049: cover property(p_reachDefFsmTran_0049) begin
+  if (!c_reachDefFsmTran_0049_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0049, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h7, to=4'h8", $time);
+    c_reachDefFsmTran_0049_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0050;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h7) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0050_reported = 1'b0;
+a_reachDefFsmTran_0050: cover property(p_reachDefFsmTran_0050) begin
+  if (!c_reachDefFsmTran_0050_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0050, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h7, to=4'h0", $time);
+    c_reachDefFsmTran_0050_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0051;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h7) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0051_reported = 1'b0;
+a_reachDefFsmTran_0051: cover property(p_reachDefFsmTran_0051) begin
+  if (!c_reachDefFsmTran_0051_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0051, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h7, to=4'h3", $time);
+    c_reachDefFsmTran_0051_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0052;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h0) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0052_reported = 1'b0;
+a_reachDefFsmTran_0052: cover property(p_reachDefFsmTran_0052) begin
+  if (!c_reachDefFsmTran_0052_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0052, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h0, to=4'h8", $time);
+    c_reachDefFsmTran_0052_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0053;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h0) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+bit c_reachDefFsmTran_0053_reported = 1'b0;
+a_reachDefFsmTran_0053: cover property(p_reachDefFsmTran_0053) begin
+  if (!c_reachDefFsmTran_0053_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0053, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h0, to=4'h1", $time);
+    c_reachDefFsmTran_0053_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0054;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h0) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0054_reported = 1'b0;
+a_reachDefFsmTran_0054: cover property(p_reachDefFsmTran_0054) begin
+  if (!c_reachDefFsmTran_0054_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0054, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h0, to=4'h0", $time);
+    c_reachDefFsmTran_0054_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0055;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h0) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0055_reported = 1'b0;
+a_reachDefFsmTran_0055: cover property(p_reachDefFsmTran_0055) begin
+  if (!c_reachDefFsmTran_0055_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0055, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h0, to=4'h3", $time);
+    c_reachDefFsmTran_0055_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0056;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h3) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0056_reported = 1'b0;
+a_reachDefFsmTran_0056: cover property(p_reachDefFsmTran_0056) begin
+  if (!c_reachDefFsmTran_0056_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0056, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h3, to=4'h8", $time);
+    c_reachDefFsmTran_0056_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0057;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h3) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+bit c_reachDefFsmTran_0057_reported = 1'b0;
+a_reachDefFsmTran_0057: cover property(p_reachDefFsmTran_0057) begin
+  if (!c_reachDefFsmTran_0057_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0057, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h3, to=4'h4", $time);
+    c_reachDefFsmTran_0057_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0058;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h3) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0058_reported = 1'b0;
+a_reachDefFsmTran_0058: cover property(p_reachDefFsmTran_0058) begin
+  if (!c_reachDefFsmTran_0058_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0058, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h3, to=4'h0", $time);
+    c_reachDefFsmTran_0058_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0059;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h3) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0059_reported = 1'b0;
+a_reachDefFsmTran_0059: cover property(p_reachDefFsmTran_0059) begin
+  if (!c_reachDefFsmTran_0059_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0059, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h3, to=4'h3", $time);
+    c_reachDefFsmTran_0059_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0060;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h6) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8);
+endproperty;
+bit c_reachDefFsmTran_0060_reported = 1'b0;
+a_reachDefFsmTran_0060: cover property(p_reachDefFsmTran_0060) begin
+  if (!c_reachDefFsmTran_0060_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0060, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h6, to=4'h8", $time);
+    c_reachDefFsmTran_0060_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0061;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h6) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+bit c_reachDefFsmTran_0061_reported = 1'b0;
+a_reachDefFsmTran_0061: cover property(p_reachDefFsmTran_0061) begin
+  if (!c_reachDefFsmTran_0061_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0061, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h6, to=4'h7", $time);
+    c_reachDefFsmTran_0061_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0062;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h6) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0);
+endproperty;
+bit c_reachDefFsmTran_0062_reported = 1'b0;
+a_reachDefFsmTran_0062: cover property(p_reachDefFsmTran_0062) begin
+  if (!c_reachDefFsmTran_0062_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0062, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h6, to=4'h0", $time);
+    c_reachDefFsmTran_0062_reported = 1'b1;
+  end
+end
+property p_reachDefFsmTran_0063;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (!$past({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}})) && ($past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg) == 4'h6) && (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3);
+endproperty;
+bit c_reachDefFsmTran_0063_reported = 1'b0;
+a_reachDefFsmTran_0063: cover property(p_reachDefFsmTran_0063) begin
+  if (!c_reachDefFsmTran_0063_reported) begin
+    $display("COVER, Sanitizer:reachDefFsmTran, id=reachDefFsmTran_0063, time=%4d, state_reg=opn_dma_tb.perif_u.u_dma.dma_ctrl_reg, from=4'h6, to=4'h3", $time);
+    c_reachDefFsmTran_0063_reported = 1'b1;
+  end
+end
+property p_illFsmTran_0064;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+a_illFsmTran_0064: assert property(p_illFsmTran_0064) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0065;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+a_illFsmTran_0065: assert property(p_illFsmTran_0065) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0066;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h8) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+a_illFsmTran_0066: assert property(p_illFsmTran_0066) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0067;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+a_illFsmTran_0067: assert property(p_illFsmTran_0067) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0068;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+a_illFsmTran_0068: assert property(p_illFsmTran_0068) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0069;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+a_illFsmTran_0069: assert property(p_illFsmTran_0069) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0070;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+a_illFsmTran_0070: assert property(p_illFsmTran_0070) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0071;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+a_illFsmTran_0071: assert property(p_illFsmTran_0071) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0072;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+a_illFsmTran_0072: assert property(p_illFsmTran_0072) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0073;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+a_illFsmTran_0073: assert property(p_illFsmTran_0073) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0074;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+a_illFsmTran_0074: assert property(p_illFsmTran_0074) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0075;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h0) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+a_illFsmTran_0075: assert property(p_illFsmTran_0075) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0076;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+a_illFsmTran_0076: assert property(p_illFsmTran_0076) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0077;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h7);
+endproperty;
+a_illFsmTran_0077: assert property(p_illFsmTran_0077) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0078;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h3) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6);
+endproperty;
+a_illFsmTran_0078: assert property(p_illFsmTran_0078) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0079;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h1);
+endproperty;
+a_illFsmTran_0079: assert property(p_illFsmTran_0079) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+property p_illFsmTran_0080;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) disable iff ({{(~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni), (~opn_dma_tb.perif_u.u_dma.rst_ni)}}) (opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h6) |=> !(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg == 4'h4);
+endproperty;
+a_illFsmTran_0080: assert property(p_illFsmTran_0080) else $display("ERROR, Sanitizer:illFsmTran, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg_past=%h", $time, $sampled(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg), $past(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg));
+
+typedef logic [$bits(opn_dma_tb.perif_u.core_lock_reg)-1:0] t_clrOnDbg_0081;
+property p_clrOnDbg_0081;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0081'({>>{opn_dma_tb.perif_u.core_lock_reg}}));
+endproperty;
+a_clrOnDbg_0081: assert property(p_clrOnDbg_0081) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.core_lock_reg=%h", $time, $sampled(t_clrOnDbg_0081'({>>{opn_dma_tb.perif_u.core_lock_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.dest_addr_lsb_reg)-1:0] t_clrOnDbg_0082;
+property p_clrOnDbg_0082;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0082'({>>{opn_dma_tb.perif_u.dest_addr_lsb_reg}}));
+endproperty;
+a_clrOnDbg_0082: assert property(p_clrOnDbg_0082) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.dest_addr_lsb_reg=%h", $time, $sampled(t_clrOnDbg_0082'({>>{opn_dma_tb.perif_u.dest_addr_lsb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.dest_addr_msb_reg)-1:0] t_clrOnDbg_0083;
+property p_clrOnDbg_0083;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0083'({>>{opn_dma_tb.perif_u.dest_addr_msb_reg}}));
+endproperty;
+a_clrOnDbg_0083: assert property(p_clrOnDbg_0083) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.dest_addr_msb_reg=%h", $time, $sampled(t_clrOnDbg_0083'({>>{opn_dma_tb.perif_u.dest_addr_msb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.done_reg)-1:0] t_clrOnDbg_0084;
+property p_clrOnDbg_0084;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0084'({>>{opn_dma_tb.perif_u.done_reg}}));
+endproperty;
+a_clrOnDbg_0084: assert property(p_clrOnDbg_0084) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.done_reg=%h", $time, $sampled(t_clrOnDbg_0084'({>>{opn_dma_tb.perif_u.done_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.end_reg)-1:0] t_clrOnDbg_0085;
+property p_clrOnDbg_0085;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0085'({>>{opn_dma_tb.perif_u.end_reg}}));
+endproperty;
+a_clrOnDbg_0085: assert property(p_clrOnDbg_0085) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.end_reg=%h", $time, $sampled(t_clrOnDbg_0085'({>>{opn_dma_tb.perif_u.end_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.length_reg)-1:0] t_clrOnDbg_0086;
+property p_clrOnDbg_0086;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0086'({>>{opn_dma_tb.perif_u.length_reg}}));
+endproperty;
+a_clrOnDbg_0086: assert property(p_clrOnDbg_0086) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.length_reg=%h", $time, $sampled(t_clrOnDbg_0086'({>>{opn_dma_tb.perif_u.length_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.source_addr_lsb_reg)-1:0] t_clrOnDbg_0087;
+property p_clrOnDbg_0087;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0087'({>>{opn_dma_tb.perif_u.source_addr_lsb_reg}}));
+endproperty;
+a_clrOnDbg_0087: assert property(p_clrOnDbg_0087) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.source_addr_lsb_reg=%h", $time, $sampled(t_clrOnDbg_0087'({>>{opn_dma_tb.perif_u.source_addr_lsb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.source_addr_msb_reg)-1:0] t_clrOnDbg_0088;
+property p_clrOnDbg_0088;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0088'({>>{opn_dma_tb.perif_u.source_addr_msb_reg}}));
+endproperty;
+a_clrOnDbg_0088: assert property(p_clrOnDbg_0088) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.source_addr_msb_reg=%h", $time, $sampled(t_clrOnDbg_0088'({>>{opn_dma_tb.perif_u.source_addr_msb_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.start_reg)-1:0] t_clrOnDbg_0089;
+property p_clrOnDbg_0089;
+@(posedge opn_dma_tb.perif_u.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0089'({>>{opn_dma_tb.perif_u.start_reg}}));
+endproperty;
+a_clrOnDbg_0089: assert property(p_clrOnDbg_0089) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.start_reg=%h", $time, $sampled(t_clrOnDbg_0089'({>>{opn_dma_tb.perif_u.start_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d)-1:0] t_clrOnDbg_0090;
+property p_clrOnDbg_0090;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0090'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d}}));
+endproperty;
+a_clrOnDbg_0090: assert property(p_clrOnDbg_0090) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d=%h", $time, $sampled(t_clrOnDbg_0090'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_lsb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.dest_addr_msb_d)-1:0] t_clrOnDbg_0091;
+property p_clrOnDbg_0091;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0091'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_msb_d}}));
+endproperty;
+a_clrOnDbg_0091: assert property(p_clrOnDbg_0091) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.dest_addr_msb_d=%h", $time, $sampled(t_clrOnDbg_0091'({>>{opn_dma_tb.perif_u.u_dma.dest_addr_msb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.dma_ctrl_reg)-1:0] t_clrOnDbg_0092;
+property p_clrOnDbg_0092;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0092'({>>{opn_dma_tb.perif_u.u_dma.dma_ctrl_reg}}));
+endproperty;
+a_clrOnDbg_0092: assert property(p_clrOnDbg_0092) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.dma_ctrl_reg=%h", $time, $sampled(t_clrOnDbg_0092'({>>{opn_dma_tb.perif_u.u_dma.dma_ctrl_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.length_d)-1:0] t_clrOnDbg_0093;
+property p_clrOnDbg_0093;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0093'({>>{opn_dma_tb.perif_u.u_dma.length_d}}));
+endproperty;
+a_clrOnDbg_0093: assert property(p_clrOnDbg_0093) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.length_d=%h", $time, $sampled(t_clrOnDbg_0093'({>>{opn_dma_tb.perif_u.u_dma.length_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_access_type_reg)-1:0] t_clrOnDbg_0094;
+property p_clrOnDbg_0094;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0094'({>>{opn_dma_tb.perif_u.u_dma.pmp_access_type_reg}}));
+endproperty;
+a_clrOnDbg_0094: assert property(p_clrOnDbg_0094) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_access_type_reg=%h", $time, $sampled(t_clrOnDbg_0094'({>>{opn_dma_tb.perif_u.u_dma.pmp_access_type_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_addr_reg)-1:0] t_clrOnDbg_0095;
+property p_clrOnDbg_0095;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0095'({>>{opn_dma_tb.perif_u.u_dma.pmp_addr_reg}}));
+endproperty;
+a_clrOnDbg_0095: assert property(p_clrOnDbg_0095) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_addr_reg=%h", $time, $sampled(t_clrOnDbg_0095'({>>{opn_dma_tb.perif_u.u_dma.pmp_addr_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_allow_reg)-1:0] t_clrOnDbg_0096;
+property p_clrOnDbg_0096;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0096'({>>{opn_dma_tb.perif_u.u_dma.pmp_allow_reg}}));
+endproperty;
+a_clrOnDbg_0096: assert property(p_clrOnDbg_0096) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_allow_reg=%h", $time, $sampled(t_clrOnDbg_0096'({>>{opn_dma_tb.perif_u.u_dma.pmp_allow_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg)-1:0] t_clrOnDbg_0097;
+property p_clrOnDbg_0097;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0097'({>>{opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg}}));
+endproperty;
+a_clrOnDbg_0097: assert property(p_clrOnDbg_0097) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg=%h", $time, $sampled(t_clrOnDbg_0097'({>>{opn_dma_tb.perif_u.u_dma.pmp_check_ctr_reg}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.source_addr_lsb_d)-1:0] t_clrOnDbg_0098;
+property p_clrOnDbg_0098;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0098'({>>{opn_dma_tb.perif_u.u_dma.source_addr_lsb_d}}));
+endproperty;
+a_clrOnDbg_0098: assert property(p_clrOnDbg_0098) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.source_addr_lsb_d=%h", $time, $sampled(t_clrOnDbg_0098'({>>{opn_dma_tb.perif_u.u_dma.source_addr_lsb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.source_addr_msb_d)-1:0] t_clrOnDbg_0099;
+property p_clrOnDbg_0099;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0099'({>>{opn_dma_tb.perif_u.u_dma.source_addr_msb_d}}));
+endproperty;
+a_clrOnDbg_0099: assert property(p_clrOnDbg_0099) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.source_addr_msb_d=%h", $time, $sampled(t_clrOnDbg_0099'({>>{opn_dma_tb.perif_u.u_dma.source_addr_msb_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.start_d)-1:0] t_clrOnDbg_0100;
+property p_clrOnDbg_0100;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0100'({>>{opn_dma_tb.perif_u.u_dma.start_d}}));
+endproperty;
+a_clrOnDbg_0100: assert property(p_clrOnDbg_0100) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.start_d=%h", $time, $sampled(t_clrOnDbg_0100'({>>{opn_dma_tb.perif_u.u_dma.start_d}})));
+typedef logic [$bits(opn_dma_tb.perif_u.u_dma.valid_reg)-1:0] t_clrOnDbg_0101;
+property p_clrOnDbg_0101;
+@(posedge opn_dma_tb.perif_u.u_dma.clk_i) $rose(opn_dma_tb.debug_mode_i) |=> ~|(t_clrOnDbg_0101'({>>{opn_dma_tb.perif_u.u_dma.valid_reg}}));
+endproperty;
+a_clrOnDbg_0101: assert property(p_clrOnDbg_0101) else $display("ERROR, Sanitizer:clrOnDbg, time=%4d, opn_dma_tb.perif_u.u_dma.valid_reg=%h", $time, $sampled(t_clrOnDbg_0101'({>>{opn_dma_tb.perif_u.u_dma.valid_reg}})));
+endmodule
+
+
+bind opn_dma_tb
+ opn_dma_v_dut
+ i_bind_dut
+  (.rst_ni (rst_ni));

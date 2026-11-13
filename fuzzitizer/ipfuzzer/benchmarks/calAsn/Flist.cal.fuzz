@@ -1,0 +1,12 @@
+tb/sanitizers_cal_csrng.sva
+tb/sanitizers_cal_doe.sva
+tb/sanitizers_cal_dv.sva
+tb/sanitizers_cal_ecc.sva
+tb/sanitizers_cal_entropy_src.sva
+tb/sanitizers_cal_hmac.sva
+tb/sanitizers_cal_kv.sva
+tb/sanitizers_cal_pv.sva
+tb/sanitizers_cal_spi_host.sva
+tb/sanitizers_cal_sha256.sva
+tb/sanitizers_cal_sha512.sva
+tb/sanitizers_cal_uart.sva

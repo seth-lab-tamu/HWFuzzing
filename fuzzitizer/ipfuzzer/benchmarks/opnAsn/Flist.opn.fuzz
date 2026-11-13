@@ -1,0 +1,12 @@
+tb/sanitizers_opn_aes0.sva
+tb/sanitizers_opn_aes1.sva
+tb/sanitizers_opn_aes2.sva
+tb/sanitizers_opn_acct.sva
+tb/sanitizers_opn_dbg.sva
+tb/sanitizers_opn_dma.sva
+tb/sanitizers_opn_hmac.sva
+tb/sanitizers_opn_reglk.sva
+tb/sanitizers_opn_rng.sva
+tb/sanitizers_opn_rsa.sva
+tb/sanitizers_opn_rst.sva
+tb/sanitizers_opn_sha256.sva
